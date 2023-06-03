@@ -14,6 +14,10 @@ export const authRoutes = [
     Element: pages.Main
   },
   {
+    path: paths.bills,
+    Element: pages.Bills
+  },
+  {
     path: paths.incomes,
     Element: pages.Incomes
   },

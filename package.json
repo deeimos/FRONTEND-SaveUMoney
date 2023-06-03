@@ -12,6 +12,8 @@
     "@types/react-dom": "^18.2.4",
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.26",
+    "@types/yup": "^0.32.0",
+    "axios": "^1.4.0",
     "formik": "^2.4.1",
     "mobx": "^6.9.0",
     "mobx-react-lite": "^3.4.3",
