@@ -18,3 +18,5 @@ export class AuthClient {
     return result
   }
 }
+
+export default AuthClient;

@@ -20,3 +20,16 @@ export interface IUserInfo {
   email: string;
   username: string;
 }
+
+export interface IBill {
+  _id: string;
+  name: string;
+  value: number;
+  description: string;
+}
+
+export interface IAddBill {
+  name: string;
+  value: number;
+  description: string;
+}

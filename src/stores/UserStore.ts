@@ -1,7 +1,7 @@
 import { makeObservable, observable, action } from "mobx";
 import { ILoginResponse, IUserInfo } from "../const/types";
 import { Auth } from "../pages";
-import { AuthClient } from "../server/authClient";
+import { AuthClient } from '../server/index';
 
 export class UserStore {
   isAuth: boolean;

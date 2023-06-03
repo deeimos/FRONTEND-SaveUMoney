@@ -4,7 +4,7 @@ import * as yup from "yup";
 
 import { S } from "./styled";
 import { IRegisterProps } from "../../const/types";
-import { AuthClient } from "../../server/authClient";
+import { AuthClient } from "../../server/index";
 import { act } from "@testing-library/react";
 
 const validationSchema = () =>
@@ -42,7 +42,7 @@ export const Registration = () => {
     try {
       const userData = await AuthClient.register(values);
       actions.resetForm();
-      setIsSending(!isSending)
+      setIsSending(!isSending);
     } catch (error: any) {
       console.log(error);
       const message = error.response.data.message;

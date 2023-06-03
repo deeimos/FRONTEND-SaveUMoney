@@ -8,7 +8,6 @@ import { SideBar } from "../components/sidebar/Sidebar";
 
 const PageRoutes = observer(() => {
   const { userStore } = useStores();
-  console.log(userStore.IsAuth);
   return (
     <Routes>
       {!userStore.IsAuth &&

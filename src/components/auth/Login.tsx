@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Formik, FormikProps, Form, Field } from "formik";
 import * as yup from "yup";
 
-import { AuthClient } from "../../server/authClient";
+import { AuthClient } from '../../server/index';
 import { S } from "./styled";
 import { useStores } from "../../StoresProvider";
 import { ILoginProps } from "../../const/types";
