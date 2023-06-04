@@ -44,7 +44,6 @@ export const Registration = () => {
       actions.resetForm();
       setIsSending(!isSending);
     } catch (error: any) {
-      console.log(error);
       const message = error.response.data.message;
       alert(message);
     }

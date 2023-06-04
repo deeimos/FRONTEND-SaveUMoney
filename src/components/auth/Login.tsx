@@ -27,7 +27,6 @@ export const Login = observer(() => {
       const userData = await AuthClient.login(values);
       userStore.SetIsAuth(userData.data);
     } catch (error: any) {
-      console.log(error);
       const message = error.response.data.message;
       alert(message);
     }

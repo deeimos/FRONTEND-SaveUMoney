@@ -1,25 +1,27 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { BillsClient } from "../../server";
 import { IBill } from "../../const/types";
+import { useStores } from "../../StoresProvider";
+import { observer } from "mobx-react-lite";
+import { DeleteBill } from "../modals/bills/DeleteBill";
+import UpdateBill from "../modals/bills/UpdateBill";
 
-export const BillList = () => {
-  const [bills, setBills] = useState(Array<IBill>);
+export const BillList = observer(() => {
+  const { billStore, deleteBillModalStore, updateBillModalStore } = useStores();
+
   useEffect(() => {
-    BillsClient.getBills()
-      .then((response) => setBills(response.data))
-      .catch((error) => console.log(error));
-  }, []);
-  console.log(bills);
+    billStore.GetBillsAction();
+  }, [billStore.isLoading]);
+  const [currentBill, setCurrentBill] = useState<IBill>(billStore.bills[0]);
 
-  const handleClick = (id: string, action: string) => {
+  const handleClick = (bill: IBill, action: string) => {
+    setCurrentBill(bill);
     switch (action) {
       case "update":
-        console.log(action);
-        console.log(id);
+        updateBillModalStore.openModal(<UpdateBill bill={bill}/>)
         break;
       case "delete":
-        console.log(action);
-        console.log(id);
+        deleteBillModalStore.openModal(<DeleteBill bill={bill}/>)
         break;
       default:
         break;
@@ -27,17 +29,19 @@ export const BillList = () => {
   };
   return (
     <div>
-      {bills.map((bill) => {
+      {billStore.bills.map((bill) => {
         return (
-          <div>
+          <div key={bill._id}>
             <h2>{bill.name}</h2>
             <h4>{bill.description}</h4>
             <h3>{bill.value}</h3>
-            <button onClick={() => handleClick(bill._id, 'update')}>Update</button>
-            <button onClick={() => handleClick(bill._id, 'delete')}>Delete</button>
+            <button onClick={() => handleClick(bill, "update")}>Update</button>
+            <button onClick={() => handleClick(bill, "delete")}>Delete</button>
+            <DeleteBill  bill={currentBill}/>
+            <UpdateBill bill={currentBill}/>
           </div>
         );
       })}
     </div>
   );
-};
+});

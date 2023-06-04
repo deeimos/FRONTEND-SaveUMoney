@@ -20,7 +20,14 @@ const PageRoutes = observer(() => {
             <Route key={path} path={path} element={<Element />}></Route>
           ))}
       </Route>
-      <Route path={"*"} element={<Navigate to={main} />}></Route>
+      {userStore.IsAuth &&
+        authRoutes.some((route) => String(route.path) === main) && (
+          <Route path={"*"} element={<Navigate to={main} />}></Route>
+        )}
+      {!userStore.IsAuth &&
+        publicRoutes.some((route) => String(route.path) === auth) && (
+          <Route path={"*"} element={<Navigate to={auth} />}></Route>
+        )}
     </Routes>
   );
 });

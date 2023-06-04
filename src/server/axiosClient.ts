@@ -7,8 +7,10 @@ const instance = axios.create({
   responseType: 'json',
 });
 
-const token = localStorage.getItem('authToken');
-instance.defaults.headers.common["Authorization"] = "Bearer " + token;
+export const updateToken = () => {
+  const accessToken = localStorage.getItem('authToken') ||  null;
+  instance.defaults.headers.common["Authorization"] = "Bearer " + accessToken;
+}
 
 
 export default instance;

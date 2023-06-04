@@ -21,14 +21,14 @@ export interface IUserInfo {
   username: string;
 }
 
-export interface IBill {
-  _id: string;
+export interface IAddBill {
   name: string;
   value: number;
   description: string;
 }
 
-export interface IAddBill {
+export interface IBill extends IAddBill{
+  _id: string;
   name: string;
   value: number;
   description: string;

@@ -1,42 +1,87 @@
-import { makeObservable, observable, computed, action } from 'mobx';
+import { makeObservable, observable, action, runInAction } from 'mobx';
 
 import React from 'react';
-import { IBill } from '../const/types';
+import { IAddBill, IBill } from '../const/types';
+import { BillsClient } from '../server';
 
 export class BillStore {
-  isUpdated: boolean;
-  listBill:  IBill[];
+  isLoading: boolean;
+  bills: IBill[];
   countBill: number;
+  errorMsg: string;
 
-  constructor(){
-    this.listBill = [];
+  constructor() {
+    this.bills = [];
     this.countBill = 0;
-    this.isUpdated = false;
+    this.isLoading = false;
+    this.errorMsg = '';
 
-    makeObservable (this, {
-      isUpdated: observable,
-      AddBill: action,
-      DelBill: action,
-      UpdateBill: action,
-      SetFalseIsUpdated: action,
+    makeObservable(this, {
+      bills: observable,
+      isLoading: observable,
+      GetBillsAction: action,
+      AddBillAction: action,
+      UpdateBillAction: action,
+      DelBillAction: action,
     });
   }
 
-  AddBill(){
-    this.countBill += 1;
-    this.isUpdated = true;
-  }
+  GetBillsAction = action(async () => {
+    try {
+      runInAction(() => {
+        this.isLoading = true;
+        this.errorMsg = '';
+      })
 
-  DelBill(){
-    this.countBill -= 1;
-    this.isUpdated = true;
-  }
+      const result = await BillsClient.getBills();
+      
+      runInAction(() => {
+        this.bills = result.data;
+        this.countBill = result.data.length;
+        this.isLoading = false;
+      })
+    } catch(error: any){
+      runInAction(() => {
+        this.isLoading = false;
+        this.errorMsg = error.response.data.message || '';
+      })
+    }
+  })
 
-  UpdateBill(){
-    this.isUpdated = true;
-  }
+  AddBillAction = action(async (bill: IAddBill) => {
+    try {
+      await BillsClient.addBill(bill);
+      await this.GetBillsAction();
+    } catch(error: any){
+      runInAction(() => {
+        this.isLoading = false;
+        this.errorMsg = error.response.data.message || '';
+      })
+    }
+  })
 
-  SetFalseIsUpdated(){
-    this.isUpdated = false;
-  }
+  UpdateBillAction = action(async (bill: IBill) => {
+    try {
+        await BillsClient.updateBill(bill);
+        await this.GetBillsAction();
+    } catch(error: any){
+      runInAction(() => {
+        this.isLoading = false;
+        this.errorMsg = error.response.data.message  || '';
+      })
+    }
+  })
+
+  DelBillAction = action(async (bill: IBill) => {
+
+    try {
+      await BillsClient.deleteBill(bill._id);
+      await this.GetBillsAction();
+    } catch(error: any){
+      runInAction(() => {
+        this.isLoading = false;
+        this.errorMsg = error.response.data.message || '';
+      })
+    }
+ })
 }

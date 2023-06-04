@@ -2,6 +2,7 @@ import { makeObservable, observable, action } from "mobx";
 import { ILoginResponse, IUserInfo } from "../const/types";
 import { Auth } from "../pages";
 import { AuthClient } from '../server/index';
+import { updateToken } from "../server/axiosClient";
 
 export class UserStore {
   isAuth: boolean;
@@ -25,6 +26,7 @@ export class UserStore {
           this.user = { email, username };
           this.isAuth = true;
           localStorage.setItem('authToken', tokenInfo.accessToken);
+          updateToken();
 
         } catch (error) {
           console.log(error)
@@ -39,13 +41,16 @@ export class UserStore {
     this.user = { email, username };
     this.isAuth = true;
     localStorage.setItem('authToken', tokenInfo.accessToken);
+    updateToken();
   }
 
   LogOut() {
     this.user = null;
     this.isAuth = false;
     localStorage.removeItem('authToken');
+    updateToken();
   }
+  
 
   get IsAuth() {
     return this.isAuth;

@@ -2,12 +2,12 @@ import React, { useContext } from "react";
 import { Formik, FormikProps, Form, Field } from "formik";
 import * as yup from "yup";
 
-import { IAddBill, IBill } from "../../const/types";
+import { IAddBill, IBill } from "../../../const/types";
 import { SModal } from "../styled";
 import { S } from "./styled";
-import { useStores } from "../../StoresProvider";
+import { useStores } from "../../../StoresProvider";
 import { observer } from "mobx-react-lite";
-import { BillsClient } from "../../server";
+import { BillsClient } from "../../../server";
 
 const validationSchema = () =>
   yup.object().shape({
@@ -17,29 +17,35 @@ const validationSchema = () =>
   });
 
 export const AddBill = observer(() => {
-  const { modalStore } = useStores();
+  const { addBillModalStore, billStore } = useStores();
   const initialValues: IAddBill = { name: "", value: 0, description: "" };
 
-  const closeModal = (e: React.MouseEvent<HTMLDivElement>) =>{
+  const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    modalStore.closeModal();
-  }
+    addBillModalStore.closeModal();
+  };
 
   const handleSubmit = async (values: IAddBill) => {
-    try {
-      const bill = await BillsClient.addBill(values);
-      console.log(bill)
-      modalStore.closeModal();
-    } catch (error: any) {
-      console.log(error);
-      const message = error.response.data.message;
-      alert(message);
+    if (billStore.countBill < 5) {
+      billStore.AddBillAction(values);
+      if (billStore.errorMsg) alert(billStore.errorMsg);
+      addBillModalStore.closeModal();
     }
   };
 
-  return modalStore.modal.isOpened ? (
+  const handleClick = (
+    e: React.MouseEvent<HTMLInputElement>,
+    setFieldValue: FormikProps<IAddBill>["setFieldValue"]
+  ) => {
+    const { value } = e.currentTarget;
+    if (value === "0") {
+      setFieldValue("value", "");
+    }
+  };
+
+  return addBillModalStore.modal.isOpened ? (
     <SModal.Modal onClick={closeModal}>
-      <SModal.ModalContent onClick={e => e.stopPropagation()}>
+      <SModal.ModalContent onClick={(e) => e.stopPropagation()}>
         <S.Header>AddBill</S.Header>
         <Formik
           initialValues={initialValues}
@@ -54,15 +60,27 @@ export const AddBill = observer(() => {
               {props.touched.name && props.errors.name && (
                 <div>{props.errors.name}</div>
               )}
-              <Field type="number" className={"input_number"} name="value" placeholder="0.00" />
+              <Field
+                type="number"
+                className={"input_number"}
+                name="value"
+                placeholder="0.00"
+                onClick={(e: any) => handleClick(e, props.setFieldValue)}
+              />
               {props.touched.value && props.errors.value && (
                 <div>{props.errors.value}</div>
               )}
-              <Field type="string" name="desciption" placeholder="Описание" />
-              {props.touched.value && props.errors.value && (
-                <div>{props.errors.value}</div>
+              <Field type="string" name="description" placeholder="Описание" />
+              {props.touched.description && props.errors.description && (
+                <div>{props.errors.description}</div>
               )}
               <button type="submit">Submit</button>
+              <button
+                type="button"
+                onClick={() => addBillModalStore.closeModal()}
+              >
+                Cancel
+              </button>
             </Form>
           )}
         </Formik>

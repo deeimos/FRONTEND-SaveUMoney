@@ -13,14 +13,14 @@ export class BillsClient {
     return result;
   }
 
-  static async updateBill(id: string, bill: IBill) {
-    const result = await api.patch('/bills/' + id, bill)
-    return result
+  static async updateBill(bill: IBill) {
+    const result = await api.patch('/bills/' + bill._id, bill);
+    return result;
   }
 
   static async deleteBill(id: string) {
-    const result = await api.patch('/bills/' + id)
-    return result
+    const result = await api.delete('/bills/' + id);
+    return result;
   }
 }
 
