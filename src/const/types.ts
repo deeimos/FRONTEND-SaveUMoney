@@ -65,7 +65,7 @@ export interface IAction extends IBaseAction{
 
 export interface IActions extends IAction{
   _id: string;
-  incomes: Array <IAction>;
+  actions: Array <IAction>;
 }
 
 export interface IGetActions{

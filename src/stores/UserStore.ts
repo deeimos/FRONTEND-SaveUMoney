@@ -1,6 +1,5 @@
 import { makeObservable, observable, action, runInAction } from "mobx";
 import { ILoginResponse, IUserInfo } from "../const/types";
-import { Auth } from "../pages";
 import { AuthClient } from '../server/index';
 import { updateToken } from "../server/axiosClient";
 

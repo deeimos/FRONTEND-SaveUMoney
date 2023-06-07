@@ -1,5 +1,5 @@
 import { makeObservable, observable, action, runInAction } from 'mobx';
-import { IAction, IActions, IActionDtString, IBaseActionDtString, IGetActions } from '../const/types';
+import { IActions, IActionDtString, IBaseActionDtString, IGetActions } from '../const/types';
 import { IncomesClient } from '../server';
 
 export class IncomeStore {
@@ -48,12 +48,8 @@ export class IncomeStore {
   })
 
   AddIncomeAction = action(async (income: IBaseActionDtString, date: IGetActions) => {
-    const newIncome: IBaseActionDtString = {
-      ...income,
-      date: income.date.toString(),
-    };
     try {
-      await IncomesClient.addIncome(newIncome);
+      await IncomesClient.addIncome(income);
       await this.GetIncomesAction(date);
     } catch (error: any) {
       runInAction(() => {
@@ -63,13 +59,9 @@ export class IncomeStore {
     }
   })
 
-  UpdateIncomeAction = action(async (income: IAction, date: IGetActions) => {
-    const newIncome: IActionDtString = {
-      ...income,
-      date: income.date.toString(),
-    };
+  UpdateIncomeAction = action(async (income: IActionDtString, date: IGetActions) => {
     try {
-      await IncomesClient.updateIncome(newIncome);
+      await IncomesClient.updateIncome(income);
       await this.GetIncomesAction(date);
     } catch (error: any) {
       runInAction(() => {
@@ -79,7 +71,7 @@ export class IncomeStore {
     }
   })
 
-  DelIncomeAction = action(async (income: IAction, date: IGetActions) => {
+  DelIncomeAction = action(async (income: IActionDtString, date: IGetActions) => {
 
     try {
       await IncomesClient.deleteIncome(income._id);

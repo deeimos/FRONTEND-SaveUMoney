@@ -1,8 +1,5 @@
-import React, { useContext } from "react";
-import { Formik, FormikProps, Form, Field } from "formik";
-import * as yup from "yup";
-
-import { IAddBill, IBill } from "../../../const/types";
+import React from "react";
+import { IBill } from "../../../const/types";
 import { SModal } from "../styled";
 import { S } from "./styled";
 import { useStores } from "../../../StoresProvider";

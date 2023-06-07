@@ -1,7 +1,7 @@
 import React from "react";
 import { S } from "../styled";
 import { BillList } from "../../components/bills/BillList";
-import { AddBill } from "../../components/modals/bills/AddBill";
+import { AddBill } from "../../components/modals/index";
 import { useStores } from "../../StoresProvider";
 import { observer } from "mobx-react-lite";
 

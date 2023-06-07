@@ -1,6 +1,6 @@
 import api from './axiosClient';
 
-import { IAction, IActionDtString, IBaseAction, IBaseActionDtString, IGetActions } from '../const/types';
+import { IActionDtString, IBaseActionDtString, IGetActions } from '../const/types';
 
 export class IncomesClient {
   static async addIncome(income: IBaseActionDtString) {

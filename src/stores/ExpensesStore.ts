@@ -1,10 +1,10 @@
 import { makeObservable, observable, action, runInAction } from 'mobx';
-import { IAction, IBaseAction, IGetActions } from '../const/types';
+import { IActionDtString, IActions, IBaseActionDtString, IGetActions } from '../const/types';
 import { ExpensesClient } from '../server';
 
 export class ExpensesStore {
   isLoading: boolean;
-  expenses: IAction[];
+  expenses: IActions[];
   countExpenses: number;
   errorMsg: string;
 
@@ -46,7 +46,7 @@ export class ExpensesStore {
     }
   })
 
-  AddExpenseAction = action(async (expense: IBaseAction, date: IGetActions) => {
+  AddExpenseAction = action(async (expense: IBaseActionDtString, date: IGetActions) => {
     try {
       await ExpensesClient.addExpense(expense);
       await this.GetExpensesAction(date);
@@ -58,7 +58,7 @@ export class ExpensesStore {
     }
   })
 
-  UpdateExpenseAction = action(async (expense: IAction, date: IGetActions) => {
+  UpdateExpenseAction = action(async (expense: IActionDtString, date: IGetActions) => {
     try {
       await ExpensesClient.updateExpense(expense);
       await this.GetExpensesAction(date);
@@ -70,7 +70,7 @@ export class ExpensesStore {
     }
   })
 
-  DelExpenseAction = action(async (expense: IAction, date: IGetActions) => {
+  DelExpenseAction = action(async (expense: IActionDtString, date: IGetActions) => {
 
     try {
       await ExpensesClient.deleteExpense(expense._id);

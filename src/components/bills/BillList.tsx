@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { IBill } from "../../const/types";
 import { useStores } from "../../StoresProvider";
 import { observer } from "mobx-react-lite";
-import { DeleteBill } from "../modals/bills/DeleteBill";
-import { UpdateBill } from "../modals/bills/UpdateBill";
+import { UpdateBill, DeleteBill } from "../modals/index";
 
 export const BillList = observer(() => {
   const { billsStore, deleteBillModalStore, updateBillModalStore } =

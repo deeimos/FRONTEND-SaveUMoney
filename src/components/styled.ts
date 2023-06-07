@@ -1,10 +1,15 @@
 import styled from "styled-components";
 
 const Body = styled.div`
+  display: flex;
   position: fixed;
-  min-height: 100%;
-  max-width: 10%;
-  background-color: black;
+  height: 100vh;
+  width: 100vw;
+  background-color: #808080;
 `;
 
-export const S = { Body };
+const Header = styled.h1`
+
+`
+
+export const S = { Header, Body };

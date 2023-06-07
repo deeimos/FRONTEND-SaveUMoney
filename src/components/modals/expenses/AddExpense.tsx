@@ -46,13 +46,12 @@ const validationSchema = yup.object().shape({
   description: yup.string(),
 });
 
-
-export const AddIncome = observer(() => {
+export const AddExpense = observer(() => {
   const {
-    addIncomeModalStore,
-    incomesStore,
+    addExpenseModalStore,
+    expensesStore,
     billsStore,
-    incomesCategoriesStore,
+    expensesCategoriesStore,
   } = useStores();
 
   const currentDate = useMemo(() => new Date(), []);
@@ -81,45 +80,35 @@ export const AddIncome = observer(() => {
     label: bill.name,
   }));
 
-  const categoryOptions = incomesCategoriesStore.categories.map((category) => ({
+  const categoryOptions = expensesCategoriesStore.categories.map((category) => ({
     value: category._id,
     label: category.name,
   }));
 
   const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    addIncomeModalStore.closeModal();
+    addExpenseModalStore.closeModal();
   };
 
   const handleSubmit = async (values: IBaseActionDtString) => {
-    incomesStore.AddIncomeAction(values, { date: formattedDate });
+    expensesStore.AddExpenseAction(values, { date: formattedDate });
     if (billsStore.errorMsg) alert(billsStore.errorMsg);
-    addIncomeModalStore.closeModal();
+    addExpenseModalStore.closeModal();
   };
 
-  const handleClickValue = (
+  const handleClick = (
     e: React.MouseEvent<HTMLInputElement>,
     setFieldValue: FormikProps<IBaseActionDtString>["setFieldValue"]
   ) => {
-    const { value } = e.currentTarget;
-    if (value === "0") {
-      setFieldValue("value", "");
-    }
-  };
-  const handleClickDate = (
-    e: React.MouseEvent<HTMLInputElement>,
-    setFieldValue: FormikProps<IBaseActionDtString>["setFieldValue"]
-  ) => {
-    const { value } = e.currentTarget;
-    if (value === formattedDate) {
-      setFieldValue("date", "");
-    }
+    const { value, name } = e.currentTarget;
+    if (name === "value" && value === "0") setFieldValue("value", "");
+    if (name === "date" && value === formattedDate) setFieldValue("date", "");
   };
 
-  return addIncomeModalStore.modal.isOpened ? (
+  return addExpenseModalStore.modal.isOpened ? (
     <SModal.Modal onClick={closeModal}>
       <SModal.ModalContent onClick={(e) => e.stopPropagation()}>
-        <S.Header>AddIncome</S.Header>
+        <S.Header>Add Expense</S.Header>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -161,7 +150,7 @@ export const AddIncome = observer(() => {
                 type="string"
                 name="date"
                 placeholder="Дата дохода"
-                onClick={(e: any) => handleClickDate(e, props.setFieldValue)}
+                onClick={(e: any) => handleClick(e, props.setFieldValue)}
               />
               {props.touched.date && props.errors.date && (
                 <div>{props.errors.date}</div>
@@ -172,7 +161,7 @@ export const AddIncome = observer(() => {
                 className={"input_number"}
                 name="value"
                 placeholder="0.00"
-                onClick={(e: any) => handleClickValue(e, props.setFieldValue)}
+                onClick={(e: any) => handleClick(e, props.setFieldValue)}
               />
               {props.touched.value && props.errors.value && (
                 <div>{props.errors.value}</div>
@@ -186,7 +175,7 @@ export const AddIncome = observer(() => {
               <button type="submit">Submit</button>
               <button
                 type="button"
-                onClick={() => addIncomeModalStore.closeModal()}
+                onClick={() => addExpenseModalStore.closeModal()}
               >
                 Cancel
               </button>
@@ -198,21 +187,4 @@ export const AddIncome = observer(() => {
   ) : null;
 });
 
-export default AddIncome;
-// const bill = billsStore.bills.find((item) => item.name === values.billName);
-// if (!bill) return "Ошибка, не удалось найти";
-
-// const category = incomesCategoriesStore.categories.find(
-//   (item) => item.name === values.categoryName
-// );
-
-// if (!category) return "Ошибка, не удалось найти";
-// const newIncome: IBaseActionDtString = {
-//   ...values,
-//   billId: bill._id,
-//   categoryId: category._id,
-//   date: values.date.toString(),
-// };
-
-// IncomesClient.addIncome(newIncome);
-// addIncomeModalStore.closeModal();
+export default AddExpense;

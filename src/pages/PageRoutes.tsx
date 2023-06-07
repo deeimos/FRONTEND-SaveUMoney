@@ -15,14 +15,15 @@ const PageRoutes = observer(() => {
           <Route key={path} path={path} element={<Element />}></Route>
         ))}
       <Route key={"/"} path="/" element={<SideBar />}>
+        <Route path={"*"} element={<Navigate to={main} />}></Route>
         {userStore.IsAuth &&
           authRoutes.map(({ path, Element }) => (
             <Route key={path} path={path} element={<Element />}></Route>
           ))}
       </Route>
-      {userStore.IsAuth && (
+      {/* {userStore.IsAuth && (
         <Route path={"*"} element={<Navigate to={main} />}></Route>
-      )}
+      )} */}
       {!userStore.IsAuth && (
         <Route path={"*"} element={<Navigate to={auth} />}></Route>
       )}

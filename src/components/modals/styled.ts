@@ -13,6 +13,8 @@ const Modal = styled.div`
 `;
 
 const ModalContent = styled.div`
+  width: 50rem;
+  height: 50rem;
   padding: 2rem;
   border-radius: 1.2rem;
   background-color: white;

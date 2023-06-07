@@ -21,9 +21,9 @@ type UpdateBillProps = {
 export const UpdateBill = observer(({ bill }: UpdateBillProps) => {
   const { updateBillModalStore, billsStore } = useStores();
   const initialValues: IAddBill = {
-    name: bill && bill.name !== undefined ? bill.name : "",
-    value: bill && bill.value !== undefined ? bill.value : 0,
-    description: bill && bill.description !== undefined ? bill.description : "",
+    name: bill?.name ?? "",
+    value: bill?.value ?? 0,
+    description: bill?.description ?? "",
   };
 
   const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -34,7 +34,7 @@ export const UpdateBill = observer(({ bill }: UpdateBillProps) => {
   const handleSubmit = async (values: IAddBill) => {
     const updatedBill: IBill = { ...values, _id: bill._id };
     // if (billsStore.bills.find((bill) => bill.name === values.name))
-    //   alert("Имена ваших счетов должно быть уникальным!");else 
+    //   alert("Имена ваших счетов должно быть уникальным!");else
     billsStore.UpdateBillAction(updatedBill);
     if (billsStore.errorMsg) alert(billsStore.errorMsg);
     updateBillModalStore.closeModal();
@@ -44,9 +44,22 @@ export const UpdateBill = observer(({ bill }: UpdateBillProps) => {
     e: React.MouseEvent<HTMLInputElement>,
     setFieldValue: FormikProps<IAddBill>["setFieldValue"]
   ) => {
-    const { value } = e.currentTarget;
-    if (value === "0") {
-      setFieldValue("value", "");
+    const { name, value } = e.currentTarget;
+    switch (name) {
+      case "name":
+        if (value === initialValues.name) setFieldValue("name", "");
+        break;
+      case "value":
+        if (value === initialValues.value.toString())
+          setFieldValue("value", "");
+        break;
+      case "description":
+        if (value === initialValues.description)
+          setFieldValue("description", "");
+        break;
+      default:
+        if (value === "0" && name === "value") setFieldValue("value", "");
+        break;
     }
   };
 
@@ -63,7 +76,12 @@ export const UpdateBill = observer(({ bill }: UpdateBillProps) => {
         >
           {(props: FormikProps<IAddBill>) => (
             <Form>
-              <Field type="text" name="name" placeholder="Имя счета" />
+              <Field
+                type="text"
+                name="name"
+                placeholder="Имя счета"
+                onClick={(e: any) => handleClick(e, props.setFieldValue)}
+              />
               {props.touched.name && props.errors.name && (
                 <div>{props.errors.name}</div>
               )}
@@ -77,7 +95,12 @@ export const UpdateBill = observer(({ bill }: UpdateBillProps) => {
               {props.touched.value && props.errors.value && (
                 <div>{props.errors.value}</div>
               )}
-              <Field type="string" name="description" placeholder="Описание" />
+              <Field
+                type="string"
+                name="description"
+                placeholder="Описание"
+                onClick={(e: any) => handleClick(e, props.setFieldValue)}
+              />
               {props.touched.description && props.errors.description && (
                 <div>{props.errors.description}</div>
               )}

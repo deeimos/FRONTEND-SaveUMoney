@@ -1,9 +1,9 @@
 import api from './axiosClient';
 
-import { IAction, IBaseAction, IGetActions } from '../const/types';
+import { IActionDtString, IBaseActionDtString, IGetActions } from '../const/types';
 
 export class ExpensesClient {
-  static async addExpense(expense: IBaseAction) {
+  static async addExpense(expense: IBaseActionDtString) {
     const result = await api.post('/expenses/create', expense);
     return result;
   }
@@ -13,7 +13,7 @@ export class ExpensesClient {
     return result;
   }
 
-  static async updateExpense(expense: IAction) {
+  static async updateExpense(expense: IActionDtString) {
     const result = await api.patch('/expenses/' + expense._id, expense);
     return result;
   }

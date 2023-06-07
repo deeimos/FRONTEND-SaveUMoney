@@ -2,7 +2,8 @@ import React, { useState, useMemo } from "react";
 import { S } from "../styled";
 import { IncomesList } from "../../components/incomes/IncomesList";
 import { useStores } from "../../StoresProvider";
-import { AddIncome } from "../../components/modals/incomes/AddIncomes";
+import { AddIncome } from "../../components/modals/index";
+import { toFormattedDate } from "../../utils/FormattedDate";
 
 export const Incomes = () => {
   const { addIncomeModalStore } = useStores();
@@ -44,6 +45,7 @@ export const Incomes = () => {
     <S.Content>
       <h1>Incomes</h1>
       <button onClick={handlePreviousMonth}> back </button>
+      <h3>{toFormattedDate.formattedDateHeader(date)}</h3>
       <button onClick={handleNextMonth}> next </button>
       <IncomesList formattedDate={formattedDate} />
       <button onClick={handleClick}>AddIncome</button>
