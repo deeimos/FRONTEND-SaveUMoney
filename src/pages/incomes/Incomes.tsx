@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { S } from "../styled";
+import { SPage } from "../styled";
 import { IncomesList } from "../../components/incomes/IncomesList";
 import { useStores } from "../../StoresProvider";
 import { AddIncome } from "../../components/modals/index";
@@ -42,7 +42,7 @@ export const Incomes = () => {
   };
 
   return (
-    <S.Content>
+    <SPage.Content>
       <h1>Incomes</h1>
       <button onClick={handlePreviousMonth}> back </button>
       <h3>{toFormattedDate.formattedDateHeader(date)}</h3>
@@ -50,7 +50,7 @@ export const Incomes = () => {
       <IncomesList formattedDate={formattedDate} />
       <button onClick={handleClick}>AddIncome</button>
       <AddIncome/>
-    </S.Content>
+    </SPage.Content>
   );
 };
 

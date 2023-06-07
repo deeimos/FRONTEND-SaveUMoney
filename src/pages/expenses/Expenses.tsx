@@ -1,8 +1,9 @@
 import React, { useState, useMemo } from "react";
-import { S } from "../styled";
+import { SPage } from "../styled";
 import { useStores } from "../../StoresProvider";
 import { ExpensesList } from "../../components/expenses/ExpensesList";
 import { AddExpense } from "../../components/modals/index";
+import { toFormattedDate } from "../../utils/FormattedDate";
 
 export const Expenses = () => {
   const { addExpenseModalStore } = useStores();
@@ -41,14 +42,15 @@ export const Expenses = () => {
   };
 
   return (
-    <S.Content>
+    <SPage.Content>
       <h1>Expenses</h1>
       <button onClick={handlePreviousMonth}> back </button>
+      <h3>{toFormattedDate.formattedDateHeader(date)}</h3>
       <button onClick={handleNextMonth}> next </button>
       <ExpensesList formattedDate={formattedDate} />
       <button onClick={handleClick}>Add Expense</button>
       <AddExpense />
-    </S.Content>
+    </SPage.Content>
   );
 };
 

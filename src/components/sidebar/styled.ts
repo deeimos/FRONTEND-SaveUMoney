@@ -5,7 +5,7 @@ const Body = styled.div`
   top: 0;
   left: 0;
   min-height: 100%;
-  width: 5rem;
+  width: 5vw;
   background-color: black;
 `;
 

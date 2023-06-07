@@ -27,6 +27,8 @@ export class RootStore {
   deleteExpenseModalStore: ModalStore = new ModalStore();
   updateExpenseModalStore: ModalStore = new ModalStore();
 
+  infoModalStore: ModalStore = new ModalStore();
+
 }
 
 export const rootStore: RootStore = new RootStore();

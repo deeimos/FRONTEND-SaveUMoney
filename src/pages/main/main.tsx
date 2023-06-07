@@ -1,10 +1,10 @@
 import React from "react";
-import { S } from "../styled";
+import { SPage } from "../styled";
 
 export const Main = () => {
   return (
-    <S.Content>
+    <SPage.Content>
       <h1>Main</h1>
-    </S.Content>
+    </SPage.Content>
   );
 };

@@ -3,6 +3,9 @@ import { IBill } from "../../const/types";
 import { useStores } from "../../StoresProvider";
 import { observer } from "mobx-react-lite";
 import { UpdateBill, DeleteBill } from "../modals/index";
+import { localization } from "../../localization";
+import { SComponents } from "../styled";
+import { S } from "./styled";
 
 export const BillList = observer(() => {
   const { billsStore, deleteBillModalStore, updateBillModalStore } =
@@ -27,20 +30,37 @@ export const BillList = observer(() => {
     }
   };
   return (
-    <div>
+    <SComponents.Body>
       {billsStore.bills.map((bill) => {
         return (
-          <div key={bill._id}>
-            <h2>{bill.name}</h2>
-            <h4>{bill.description}</h4>
-            <h3>{bill.value}</h3>
-            <button onClick={() => handleClick(bill, "update")}>Update</button>
-            <button onClick={() => handleClick(bill, "delete")}>Delete</button>
+          <SComponents.Item key={bill._id}>
+            <SComponents.ItemInfo>
+              <SComponents.ItemConst>
+                <S.Name>{localization.bills.name + ": "}</S.Name>
+                <S.Description>
+                  {localization.bills.description + ": "}
+                </S.Description>
+                <S.Value>{localization.bills.value + ": "}</S.Value>
+              </SComponents.ItemConst>
+              <SComponents.ItemValue>
+                <S.Name>{bill.name}</S.Name>
+                <S.Description>{bill.description}</S.Description>
+                <S.Value>{bill.value}</S.Value>
+              </SComponents.ItemValue>
+            </SComponents.ItemInfo>
+            <SComponents.Control>
+              <SComponents.Button onClick={() => handleClick(bill, "update")}>
+                {localization.update}
+              </SComponents.Button>
+              <SComponents.Button onClick={() => handleClick(bill, "delete")}>
+                {localization.delete}
+              </SComponents.Button>
+            </SComponents.Control>
             <DeleteBill bill={currentBill} />
             <UpdateBill bill={currentBill} />
-          </div>
+          </SComponents.Item>
         );
       })}
-    </div>
+    </SComponents.Body>
   );
 });

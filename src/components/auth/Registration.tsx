@@ -5,33 +5,41 @@ import * as yup from "yup";
 import { S } from "./styled";
 import { IRegisterProps } from "../../const/types";
 import { AuthClient } from "../../server/index";
+import { localization } from "../../localization";
+import { useStores } from "../../StoresProvider";
+import { InfoModal } from "../modals/error/InfoModal";
+import { observer } from "mobx-react-lite";
 
 const validationSchema = () =>
   yup.object().shape({
     username: yup
       .string()
-      .required("Не введено имя")
-      .min(2, "Длина имени должна быть минимум 2 символа"),
+      .required(localization.auth.validation.skipedUserName)
+      .min(2, localization.auth.validation.invalidUserName),
     email: yup
       .string()
-      .required("Не введен адрес электронной почты")
-      .email("Неверный email"),
+      .required(localization.auth.validation.skipedEmail)
+      .email(localization.auth.validation.invalidEmail),
     password: yup
       .string()
-      .required("Не введен пароль")
-      .min(8, "Длина пароля должна быть минимум 8 символов")
+      .required(localization.auth.validation.skipedPassword)
+      .min(8, localization.auth.validation.smallLenPassword)
       .matches(
         /^(?=.*[a-zA-Zа-яА-Я])(?=.*\d)[a-zA-Zа-яА-Я\d!@#$%^&*()_+-=,./<>?;':"[\]\\{}|`~]+$/,
-        "Пароль должен содержать хотя бы одну букву нижнего регистра, хотя бы одну высокого регистра и хотя бы одну цифру"
+        localization.auth.validation.invalidPassword
       ),
     repeatPassword: yup
       .string()
-      .oneOf([yup.ref("password"), ""], "Пароли должны совпадать")
-      .required("Повторите пароль"),
+      .oneOf([yup.ref("password"), ""], localization.auth.validation.skipedRepeatPassword)
+      .required(localization.auth.validation.notEqualRepeatPassword),
   });
 
-export const Registration = () => {
+export const Registration = observer(() => {
   const [isSending, setIsSending] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const { infoModalStore } = useStores();
+
   const initialValues: IRegisterProps = {
     username: "",
     email: "",
@@ -45,11 +53,19 @@ export const Registration = () => {
   ) => {
     try {
       await AuthClient.register(values);
+      setMessage(localization.auth.registerMessage);
       actions.resetForm();
-      setIsSending(!isSending);
+      infoModalStore.openModal(<InfoModal message={message} />);
     } catch (error: any) {
-      const message = error.response.data.message;
-      alert(message);
+      switch (error.response.data.message) {
+        case "User already exists":
+          setMessage(localization.auth.userAlredyExist);
+          actions.resetForm();
+          infoModalStore.openModal(<InfoModal message={message} />);
+          break;
+        default:
+          break;
+      }
     }
   };
 
@@ -59,7 +75,7 @@ export const Registration = () => {
 
   return (
     <>
-      <S.Header>Login</S.Header>
+      <S.Header>{localization.auth.registration}</S.Header>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -108,13 +124,13 @@ export const Registration = () => {
             {props.touched.repeatPassword && props.errors.repeatPassword && (
               <div>{props.errors.repeatPassword}</div>
             )}
-            <button type="submit">Submit</button>
-            {isSending && <div>Вы зарегистрировались</div>}
+            <button type="submit">{localization.auth.buttonRegister}</button>
           </Form>
         )}
       </Formik>
+      <InfoModal message={message} />
     </>
   );
-};
+});
 
 export default Registration;

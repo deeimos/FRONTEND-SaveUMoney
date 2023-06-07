@@ -1,9 +1,10 @@
 import React from "react";
-import { S } from "../styled";
+import { SPage } from "../styled";
 import { BillList } from "../../components/bills/BillList";
 import { AddBill } from "../../components/modals/index";
 import { useStores } from "../../StoresProvider";
 import { observer } from "mobx-react-lite";
+import { localization } from "../../localization";
 
 export const Bills = observer(() => {
   const { addBillModalStore } = useStores();
@@ -12,13 +13,13 @@ export const Bills = observer(() => {
     addBillModalStore.openModal(<AddBill />);
   };
   return (
-    <S.Content>
-      <S.Header>Bills</S.Header>
-      <S.Body>
+    <SPage.Content>
+      <SPage.Header>{localization.bills.bills}</SPage.Header>
+      <SPage.Body>
         <BillList />
-        <button onClick={handleClick}>Add</button>
+        <SPage.Button onClick={handleClick}>{localization.add}</SPage.Button>
         <AddBill />
-      </S.Body>
-    </S.Content>
+      </SPage.Body>
+    </SPage.Content>
   );
 });

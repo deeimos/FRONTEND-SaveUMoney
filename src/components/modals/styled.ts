@@ -10,9 +10,11 @@ const Modal = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 `;
 
 const ModalContent = styled.div`
+  z-index: 99;
   width: 50rem;
   height: 50rem;
   padding: 2rem;
