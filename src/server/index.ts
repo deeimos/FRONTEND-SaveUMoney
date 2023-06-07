@@ -1,2 +1,5 @@
 export { AuthClient } from './authClient'
 export { BillsClient } from './billsClient'
+export { CategoriesClient } from './categoriesClient'
+export { IncomesClient } from './incomesClient'
+export { ExpensesClient} from './expensesClient'

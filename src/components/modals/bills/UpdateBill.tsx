@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Formik, FormikProps, Form, Field } from "formik";
 import * as yup from "yup";
 
@@ -7,7 +7,6 @@ import { SModal } from "../styled";
 import { S } from "./styled";
 import { useStores } from "../../../StoresProvider";
 import { observer } from "mobx-react-lite";
-import { BillsClient } from "../../../server";
 
 const validationSchema = () =>
   yup.object().shape({
@@ -20,11 +19,11 @@ type UpdateBillProps = {
   bill: IBill;
 };
 export const UpdateBill = observer(({ bill }: UpdateBillProps) => {
-  const { updateBillModalStore, billStore } = useStores();
+  const { updateBillModalStore, billsStore } = useStores();
   const initialValues: IAddBill = {
-    name: bill && bill.name !== undefined ? bill.name : '',
+    name: bill && bill.name !== undefined ? bill.name : "",
     value: bill && bill.value !== undefined ? bill.value : 0,
-    description: bill && bill.description !== undefined ? bill.description : '',
+    description: bill && bill.description !== undefined ? bill.description : "",
   };
 
   const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -34,8 +33,10 @@ export const UpdateBill = observer(({ bill }: UpdateBillProps) => {
 
   const handleSubmit = async (values: IAddBill) => {
     const updatedBill: IBill = { ...values, _id: bill._id };
-    billStore.UpdateBillAction(updatedBill);
-    if (billStore.errorMsg) alert(billStore.errorMsg);
+    // if (billsStore.bills.find((bill) => bill.name === values.name))
+    //   alert("Имена ваших счетов должно быть уникальным!");else 
+    billsStore.UpdateBillAction(updatedBill);
+    if (billsStore.errorMsg) alert(billsStore.errorMsg);
     updateBillModalStore.closeModal();
   };
 

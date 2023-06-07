@@ -1,10 +1,8 @@
 import { makeObservable, observable, action, runInAction } from 'mobx';
-
-import React from 'react';
 import { IAddBill, IBill } from '../const/types';
 import { BillsClient } from '../server';
 
-export class BillStore {
+export class BillsStore {
   isLoading: boolean;
   bills: IBill[];
   countBill: number;
@@ -34,13 +32,14 @@ export class BillStore {
       })
 
       const result = await BillsClient.getBills();
-      
-      runInAction(() => {
-        this.bills = result.data;
-        this.countBill = result.data.length;
-        this.isLoading = false;
-      })
-    } catch(error: any){
+      if (result && result?.data) {
+        runInAction(() => {
+          this.bills = result.data;
+          this.countBill = result.data.length;
+          this.isLoading = false;
+        })
+      }
+    } catch (error: any) {
       runInAction(() => {
         this.isLoading = false;
         this.errorMsg = error.response.data.message || '';
@@ -52,7 +51,7 @@ export class BillStore {
     try {
       await BillsClient.addBill(bill);
       await this.GetBillsAction();
-    } catch(error: any){
+    } catch (error: any) {
       runInAction(() => {
         this.isLoading = false;
         this.errorMsg = error.response.data.message || '';
@@ -62,12 +61,12 @@ export class BillStore {
 
   UpdateBillAction = action(async (bill: IBill) => {
     try {
-        await BillsClient.updateBill(bill);
-        await this.GetBillsAction();
-    } catch(error: any){
+      await BillsClient.updateBill(bill);
+      await this.GetBillsAction();
+    } catch (error: any) {
       runInAction(() => {
         this.isLoading = false;
-        this.errorMsg = error.response.data.message  || '';
+        this.errorMsg = error.response.data.message || '';
       })
     }
   })
@@ -77,11 +76,11 @@ export class BillStore {
     try {
       await BillsClient.deleteBill(bill._id);
       await this.GetBillsAction();
-    } catch(error: any){
+    } catch (error: any) {
       runInAction(() => {
         this.isLoading = false;
         this.errorMsg = error.response.data.message || '';
       })
     }
- })
+  })
 }

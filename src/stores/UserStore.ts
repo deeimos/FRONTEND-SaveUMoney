@@ -1,4 +1,4 @@
-import { makeObservable, observable, action } from "mobx";
+import { makeObservable, observable, action, runInAction } from "mobx";
 import { ILoginResponse, IUserInfo } from "../const/types";
 import { Auth } from "../pages";
 import { AuthClient } from '../server/index';
@@ -22,12 +22,14 @@ export class UserStore {
       (async () => {
         try {
           const userData = await AuthClient.checkAuth(token);
-          const { email, username, ...tokenInfo } = userData.data;
-          this.user = { email, username };
-          this.isAuth = true;
-          localStorage.setItem('authToken', tokenInfo.accessToken);
-          updateToken();
-
+          if (userData)
+            runInAction(() => {
+              const { email, username, ...tokenInfo } = userData.data;
+              this.user = { email, username };
+              this.isAuth = true;
+              localStorage.setItem('authToken', tokenInfo.accessToken);
+              updateToken();
+            })
         } catch (error) {
           console.log(error)
         }
@@ -50,7 +52,7 @@ export class UserStore {
     localStorage.removeItem('authToken');
     updateToken();
   }
-  
+
 
   get IsAuth() {
     return this.isAuth;

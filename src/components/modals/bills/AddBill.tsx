@@ -1,13 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Formik, FormikProps, Form, Field } from "formik";
 import * as yup from "yup";
 
-import { IAddBill, IBill } from "../../../const/types";
+import { IAddBill } from "../../../const/types";
 import { SModal } from "../styled";
 import { S } from "./styled";
 import { useStores } from "../../../StoresProvider";
 import { observer } from "mobx-react-lite";
-import { BillsClient } from "../../../server";
 
 const validationSchema = () =>
   yup.object().shape({
@@ -17,7 +16,7 @@ const validationSchema = () =>
   });
 
 export const AddBill = observer(() => {
-  const { addBillModalStore, billStore } = useStores();
+  const { addBillModalStore, billsStore } = useStores();
   const initialValues: IAddBill = { name: "", value: 0, description: "" };
 
   const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -26,9 +25,11 @@ export const AddBill = observer(() => {
   };
 
   const handleSubmit = async (values: IAddBill) => {
-    if (billStore.countBill < 5) {
-      billStore.AddBillAction(values);
-      if (billStore.errorMsg) alert(billStore.errorMsg);
+    if (billsStore.countBill < 5) {
+      if (billsStore.bills.find((bill) => bill.name === values.name))
+        alert("Имена ваших счетов должно быть уникальным!");
+      else billsStore.AddBillAction(values);
+      if (billsStore.errorMsg) alert(billsStore.errorMsg);
       addBillModalStore.closeModal();
     }
   };

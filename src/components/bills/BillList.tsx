@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { BillsClient } from "../../server";
 import { IBill } from "../../const/types";
 import { useStores } from "../../StoresProvider";
 import { observer } from "mobx-react-lite";
 import { DeleteBill } from "../modals/bills/DeleteBill";
-import UpdateBill from "../modals/bills/UpdateBill";
+import { UpdateBill } from "../modals/bills/UpdateBill";
 
 export const BillList = observer(() => {
-  const { billStore, deleteBillModalStore, updateBillModalStore } = useStores();
+  const { billsStore, deleteBillModalStore, updateBillModalStore } =
+    useStores();
 
   useEffect(() => {
-    billStore.GetBillsAction();
-  }, [billStore.isLoading]);
-  const [currentBill, setCurrentBill] = useState<IBill>(billStore.bills[0]);
+    billsStore.GetBillsAction();
+  }, [billsStore]);
+  const [currentBill, setCurrentBill] = useState<IBill>(billsStore.bills[0]);
 
   const handleClick = (bill: IBill, action: string) => {
     setCurrentBill(bill);
     switch (action) {
       case "update":
-        updateBillModalStore.openModal(<UpdateBill bill={bill}/>)
+        updateBillModalStore.openModal(<UpdateBill bill={bill} />);
         break;
       case "delete":
-        deleteBillModalStore.openModal(<DeleteBill bill={bill}/>)
+        deleteBillModalStore.openModal(<DeleteBill bill={bill} />);
         break;
       default:
         break;
@@ -29,7 +29,7 @@ export const BillList = observer(() => {
   };
   return (
     <div>
-      {billStore.bills.map((bill) => {
+      {billsStore.bills.map((bill) => {
         return (
           <div key={bill._id}>
             <h2>{bill.name}</h2>
@@ -37,8 +37,8 @@ export const BillList = observer(() => {
             <h3>{bill.value}</h3>
             <button onClick={() => handleClick(bill, "update")}>Update</button>
             <button onClick={() => handleClick(bill, "delete")}>Delete</button>
-            <DeleteBill  bill={currentBill}/>
-            <UpdateBill bill={currentBill}/>
+            <DeleteBill bill={currentBill} />
+            <UpdateBill bill={currentBill} />
           </div>
         );
       })}

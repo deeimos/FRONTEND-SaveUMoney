@@ -12,7 +12,7 @@ type DeleteBillProps = {
   bill: IBill;
 };
 export const DeleteBill = observer(({ bill }: DeleteBillProps) => {
-  const { deleteBillModalStore, billStore } = useStores();
+  const { deleteBillModalStore, billsStore } = useStores();
 
   const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -20,8 +20,8 @@ export const DeleteBill = observer(({ bill }: DeleteBillProps) => {
   };
 
   const handleClick = async () => {
-    billStore.DelBillAction(bill);
-    if (billStore.errorMsg) alert(billStore.errorMsg);
+    billsStore.DelBillAction(bill);
+    if (billsStore.errorMsg) alert(billsStore.errorMsg);
     deleteBillModalStore.closeModal();
   };
 

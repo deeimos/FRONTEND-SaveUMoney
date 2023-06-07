@@ -5,7 +5,6 @@ import * as yup from "yup";
 import { S } from "./styled";
 import { IRegisterProps } from "../../const/types";
 import { AuthClient } from "../../server/index";
-import { act } from "@testing-library/react";
 
 const validationSchema = () =>
   yup.object().shape({
@@ -25,6 +24,10 @@ const validationSchema = () =>
         /^(?=.*[a-zA-Zа-яА-Я])(?=.*\d)[a-zA-Zа-яА-Я\d!@#$%^&*()_+-=,./<>?;':"[\]\\{}|`~]+$/,
         "Пароль должен содержать хотя бы одну букву нижнего регистра, хотя бы одну высокого регистра и хотя бы одну цифру"
       ),
+    repeatPassword: yup
+      .string()
+      .oneOf([yup.ref("password"), ""], "Пароли должны совпадать")
+      .required("Повторите пароль"),
   });
 
 export const Registration = () => {
@@ -33,6 +36,7 @@ export const Registration = () => {
     username: "",
     email: "",
     password: "",
+    repeatPassword: "",
   };
 
   const handleClick = async (
@@ -40,7 +44,7 @@ export const Registration = () => {
     actions: FormikHelpers<IRegisterProps>
   ) => {
     try {
-      const userData = await AuthClient.register(values);
+      await AuthClient.register(values);
       actions.resetForm();
       setIsSending(!isSending);
     } catch (error: any) {
@@ -94,6 +98,15 @@ export const Registration = () => {
             />
             {props.touched.password && props.errors.password && (
               <div>{props.errors.password}</div>
+            )}
+            <Field
+              type="password"
+              name="repeatPassword"
+              placeholder="Повторите пароль"
+              onBlur={handleBlur}
+            />
+            {props.touched.repeatPassword && props.errors.repeatPassword && (
+              <div>{props.errors.repeatPassword}</div>
             )}
             <button type="submit">Submit</button>
             {isSending && <div>Вы зарегистрировались</div>}

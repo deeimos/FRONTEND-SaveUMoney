@@ -7,6 +7,7 @@ export interface IRegisterProps {
   username: string;
   email: string;
   password: string;
+  repeatPassword: string;
 }
 
 export interface ILoginResponse {
@@ -30,6 +31,60 @@ export interface IAddBill {
 export interface IBill extends IAddBill{
   _id: string;
   name: string;
+  value: number;
+  description: string;
+}
+
+export interface IBaseCategory{
+  name: string;
+  description: string;
+}
+
+export interface ICategory extends IBaseCategory{
+  _id: string;
+  name: string;
+  description: string;
+}
+
+export interface IBaseAction{
+  billId: string;
+  categoryId: string;
+  date: Date;
+  value: number;
+  description: string;
+}
+
+export interface IAction extends IBaseAction{
+  _id: string;
+  billId: string;
+  categoryId: string;
+  date: Date;
+  value: number;
+  description: string;
+}
+
+export interface IActions extends IAction{
+  _id: string;
+  incomes: Array <IAction>;
+}
+
+export interface IGetActions{
+  date: string;
+}
+
+export interface IBaseActionDtString{
+  billId: string;
+  categoryId: string;
+  date: string;
+  value: number;
+  description: string;
+}
+
+export interface IActionDtString extends IBaseActionDtString{
+  _id: string;
+  billId: string;
+  categoryId: string;
+  date: string;
   value: number;
   description: string;
 }
