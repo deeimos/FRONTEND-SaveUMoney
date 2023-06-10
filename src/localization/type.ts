@@ -1,3 +1,5 @@
+import { invalid } from "moment";
+
 export interface ILocalization {
   ok: string;
   error: string;
@@ -34,5 +36,7 @@ export interface ILocalization {
     description: string;
     value: string;
     add: string;
+    addError: string;
+    invalidName: string;
   };
 }

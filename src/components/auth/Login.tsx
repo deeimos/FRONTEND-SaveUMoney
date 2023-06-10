@@ -31,7 +31,7 @@ export const Login = observer(() => {
       const userData = await AuthClient.login(values);
       userStore.SetIsAuth(userData.data);
     } catch (error: any) {
-      switch (error.response.data.message) {
+      switch (error.response?.data?.message) {
         case "User not found":
           setMessage(localization.auth.userNotFound);
           actions.resetForm();

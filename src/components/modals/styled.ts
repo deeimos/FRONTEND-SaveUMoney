@@ -10,13 +10,13 @@ const Modal = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1;
+  z-index: 9998;
 `;
 
 const ModalContent = styled.div`
-  z-index: 99;
-  width: 50rem;
-  height: 50rem;
+  z-index: 9999;
+  width: 10rem;
+  height: 10rem;
   padding: 2rem;
   border-radius: 1.2rem;
   background-color: white;

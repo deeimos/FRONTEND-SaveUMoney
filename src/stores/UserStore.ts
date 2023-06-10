@@ -13,7 +13,8 @@ export class UserStore {
     makeObservable(this, {
       isAuth: observable,
       SetIsAuth: action,
-      LogOut: action
+      LogOut: action,
+      CheckAuth: action,
     });
 
     const token = localStorage.getItem('authToken');
@@ -30,12 +31,28 @@ export class UserStore {
               updateToken();
             })
         } catch (error) {
-          console.log(error)
+          this.LogOut();
         }
       })();
 
     }
   }
+  CheckAuth = action(async () => {
+    const token = localStorage.getItem('authToken')?.toString() || '';
+    try {
+      const userData = await AuthClient.checkAuth(token);
+      if (userData)
+        runInAction(() => {
+          const { email, username, ...tokenInfo } = userData.data;
+          this.user = { email, username };
+          this.isAuth = true;
+          localStorage.setItem('authToken', tokenInfo.accessToken);
+          updateToken();
+        })
+    } catch (error) {
+      this.LogOut();
+    }
+  })
 
   SetIsAuth(data: ILoginResponse) {
     const { email, username, ...tokenInfo } = data;

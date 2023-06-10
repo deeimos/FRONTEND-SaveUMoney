@@ -48,8 +48,9 @@ const validationSchema = yup.object().shape({
 
 type UpdateExpenseProps = {
   expense: IActionDtString;
+  date: string;
 };
-export const UpdateExpense = observer(({ expense }: UpdateExpenseProps) => {
+export const UpdateExpense = observer(({ expense, date }: UpdateExpenseProps) => {
   const {
     updateExpenseModalStore,
     expensesStore,
@@ -95,7 +96,7 @@ export const UpdateExpense = observer(({ expense }: UpdateExpenseProps) => {
 
   const handleSubmit = async (values: IBaseActionDtString) => {
     const updatedBill: IActionDtString = { ...values, _id: expense._id };
-    expensesStore.UpdateExpenseAction(updatedBill, { date: formattedDate });
+    expensesStore.UpdateExpenseAction(updatedBill, { date: date });
     if (billsStore.errorMsg) alert(billsStore.errorMsg);
     updateExpenseModalStore.closeModal();
   };

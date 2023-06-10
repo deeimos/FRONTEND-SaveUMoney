@@ -15,11 +15,24 @@ export const SideBar = () => {
   return (
     <>
       <S.Body>
-        <Link to={paths.main}>1</Link>
-        <Link to={paths.bills}>2</Link>
-        <Link to={paths.incomes}>3</Link>
-        <Link to={paths.expenses}>4</Link>
-        <button onClick={handleClick}>Log out</button>
+        <S.Sidebar>
+          <S.Item>
+            <Link to={paths.review}>SaveUMoney</Link>
+          </S.Item>
+          <S.Item>
+            <Link to={paths.review}>Обзор</Link>
+          </S.Item>
+          <S.Item>
+            <Link to={paths.bills}>Счета</Link>
+          </S.Item>
+          <S.Item>
+            <Link to={paths.incomes}>Доходы</Link>
+          </S.Item>
+          <S.Item>
+            <Link to={paths.expenses}>Расходы</Link>
+          </S.Item>
+        </S.Sidebar>
+        <S.Logout onClick={handleClick}>Выйти</S.Logout>
       </S.Body>
       <Outlet />
     </>

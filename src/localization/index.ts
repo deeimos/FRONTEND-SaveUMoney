@@ -36,6 +36,8 @@ export const localization: ILocalization = {
     name: "Название",
     description: "Описание",
     value: "Средств на счету",
-    add: "Добавить счёт"
+    add: "Добавить счёт",
+    addError: "Лимит счетов: 6",
+    invalidName: "Имена счетов должны быть уникальными"
   },
 }

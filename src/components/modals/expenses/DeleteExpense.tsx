@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { IActionDtString } from "../../../const/types";
 import { SModal } from "../styled";
 import { S } from "./styled";
@@ -7,30 +7,18 @@ import { observer } from "mobx-react-lite";
 
 type DeleteExpenseProps = {
   expense: IActionDtString;
+  date: string
 };
-export const DeleteExpense = observer(({ expense }: DeleteExpenseProps) => {
+export const DeleteExpense = observer(({ expense, date }: DeleteExpenseProps) => {
   const { deleteExpenseModalStore, expensesStore } = useStores();
 
-  const currentDate = useMemo(() => new Date(), []);
-
-  const formattedDate = useMemo(
-    () =>
-      new Intl.DateTimeFormat("ru", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      })
-        .format(currentDate)
-        .toString(),
-    [currentDate]
-  );
   const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     deleteExpenseModalStore.closeModal();
   };
 
   const handleClick = async () => {
-    expensesStore.DelExpenseAction(expense, { date: formattedDate });
+    expensesStore.DelExpenseAction(expense, { date: date });
     if (expensesStore.errorMsg) alert(expensesStore.errorMsg);
     deleteExpenseModalStore.closeModal();
   };

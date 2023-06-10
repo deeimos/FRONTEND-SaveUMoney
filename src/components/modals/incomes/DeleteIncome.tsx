@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { IActionDtString } from "../../../const/types";
 import { SModal } from "../styled";
 import { S } from "./styled";
@@ -7,30 +7,18 @@ import { observer } from "mobx-react-lite";
 
 type DeleteIncomeProps = {
   income: IActionDtString;
+  date: string;
 };
-export const DeleteIncome = observer(({ income }: DeleteIncomeProps) => {
+export const DeleteIncome = observer(({ income, date }: DeleteIncomeProps) => {
   const { deleteIncomeModalStore, incomesStore } = useStores();
 
-  const currentDate = useMemo(() => new Date(), []);
-
-  const formattedDate = useMemo(
-    () =>
-      new Intl.DateTimeFormat("ru", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      })
-        .format(currentDate)
-        .toString(),
-    [currentDate]
-  );
   const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     deleteIncomeModalStore.closeModal();
   };
 
   const handleClick = async () => {
-    incomesStore.DelIncomeAction(income, { date: formattedDate });
+    incomesStore.DelIncomeAction(income, { date: date });
     if (incomesStore.errorMsg) alert(incomesStore.errorMsg);
     deleteIncomeModalStore.closeModal();
   };

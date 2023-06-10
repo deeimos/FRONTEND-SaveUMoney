@@ -22,6 +22,16 @@ export class ExpensesClient {
     const result = await api.delete('/expenses/' + id);
     return result;
   }
+
+  static async totalExpenses(date: IGetActions){
+    const result = await api.post('/expenses/total', date);
+    return result;
+  }
+
+  static async statsExpenses(date: IGetActions){
+    const result = await api.post('/expenses/stats', date);
+    return result;
+  }
 }
 
 export default ExpensesClient;

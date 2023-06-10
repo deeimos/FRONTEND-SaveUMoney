@@ -2,50 +2,74 @@ import styled from "styled-components";
 
 const Body = styled.div`
   display: flex;
-  justify-content: start;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding-left: 1.5rem;
   box-sizing: border-box;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: nowrap;
+  padding-bottom: 5rem;
 `;
 
-const Item = styled.div`
+const Items = styled.div`
   display: flex;
-  flex-basis: 40%;
-  align-self: flex-start;
-  justify-content: space-between;
-  width: 20rem;
+  width: 50rem;
+  box-sizing: border-box;
   flex-direction: column;
+  justify-content: flex-start;
+  padding: 1.6rem 0rem;
   margin-right: 1.5rem;
   margin-bottom: 2.4rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0.1rem 0.1rem 0.5rem #5A5A5A;
+`
+
+const ActionItem = styled.div`
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0rem 0rem 0.1rem #5A5A5A;
+  margin: 0.6rem 2.4rem;
+  padding: 0.5rem 1rem;
 `
 
 const ItemInfo = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   flex-direction: row;
-  margin-bottom: 1.2rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0.4rem;
+`
+const TextInfo = styled.p`
+  display:flex;
+  font-weight: 400;
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+  text-align: left;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 0rem 0.5rem;
+`;
+
+const DateActions = styled(TextInfo)`
+  margin: 0.6rem 2.4rem;
+  padding: 0.5rem 1rem;
 `
 
-const ItemConst = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-  margin-right: 1.5rem;
-  overflow: hidden;
-  text-overflow: ellipsis
-`
+const TextDescription = styled(TextInfo)`
+  display:flex;
+  color: #504F51;
+`;
 
-const ItemValue = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-  overflow: hidden;
-  text-overflow: ellipsis
-`
 const Control = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  margin-top: 1.2rem;
+  justify-content: flex-end;
   flex-direction: row;
 `
 const Button = styled.button`
@@ -56,9 +80,16 @@ const Button = styled.button`
   border-radius: 0.5rem;
   width: 6.8rem;
   height: 2rem;
+  margin-right: 1rem;
   background-color: #007dff;
   color: #ffffff;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.2rem;
+  text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `
 
 
-export const SComponents = { Body, Item, ItemInfo, ItemConst, ItemValue, Control, Button };
+export const SComponents = { Body, Items, ActionItem, DateActions, ItemInfo, TextInfo, TextDescription, Control, Button };

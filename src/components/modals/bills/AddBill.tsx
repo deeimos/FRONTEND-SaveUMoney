@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, FormikProps, Form, Field } from "formik";
 import * as yup from "yup";
 
@@ -7,6 +7,8 @@ import { SModal } from "../styled";
 import { S } from "./styled";
 import { useStores } from "../../../StoresProvider";
 import { observer } from "mobx-react-lite";
+import InfoModal from "../error/InfoModal";
+import { localization } from "../../../localization";
 
 const validationSchema = () =>
   yup.object().shape({
@@ -16,7 +18,8 @@ const validationSchema = () =>
   });
 
 export const AddBill = observer(() => {
-  const { addBillModalStore, billsStore } = useStores();
+  const { addBillModalStore, billsStore, infoModalStore } = useStores();
+  const [message, setMessage] = useState("");
   const initialValues: IAddBill = { name: "", value: 0, description: "" };
 
   const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -25,13 +28,17 @@ export const AddBill = observer(() => {
   };
 
   const handleSubmit = async (values: IAddBill) => {
-    if (billsStore.countBill < 5) {
-      if (billsStore.bills.find((bill) => bill.name === values.name))
-        alert("Имена ваших счетов должно быть уникальным!");
-      else billsStore.AddBillAction(values);
+    if (billsStore.countBill < 6) {
+      if (billsStore.bills.find((bill) => bill.name === values.name)) {
+        setMessage(localization.bills.invalidName);
+        infoModalStore.openModal(<InfoModal message={message} />);
+      } else billsStore.AddBillAction(values);
       if (billsStore.errorMsg) alert(billsStore.errorMsg);
-      addBillModalStore.closeModal();
+    } else {
+      setMessage(localization.bills.addError);
+      infoModalStore.openModal(<InfoModal message={message} />);
     }
+    if (!infoModalStore.modal.isOpened) addBillModalStore.closeModal();
   };
 
   const handleClick = (
@@ -85,6 +92,7 @@ export const AddBill = observer(() => {
             </Form>
           )}
         </Formik>
+        <InfoModal message={message} />
       </SModal.ModalContent>
     </SModal.Modal>
   ) : null;

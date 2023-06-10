@@ -19,7 +19,7 @@ export class BillsClient {
   }
 
   static async deleteBill(id: string) {
-    const result = await api.delete('/bills/' + id);
+    const result = await api.delete('clear/bills/' + id);
     return result;
   }
 }

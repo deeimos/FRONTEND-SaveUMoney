@@ -10,7 +10,7 @@ export const publicRoutes = [
 
 export const authRoutes = [
   {
-    path: paths.main,
+    path: paths.review,
     Element: pages.Main
   },
   {

@@ -22,6 +22,16 @@ export class IncomesClient {
     const result = await api.delete('/incomes/' + id);
     return result;
   }
+
+  static async totalIncomes(date: IGetActions){
+    const result = await api.post('/incomes/total', date);
+    return result;
+  }
+
+  static async statsIncomes(date: IGetActions){
+    const result = await api.post('/incomes/stats', date);
+    return result;
+  }
 }
 
 export default IncomesClient;

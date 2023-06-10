@@ -88,3 +88,13 @@ export interface IActionDtString extends IBaseActionDtString{
   value: number;
   description: string;
 }
+
+export interface IActionTotal{
+  _id: string;
+  value: number;
+}
+
+export interface IActionsTotal extends IActionTotal{
+  total: number;
+  actions: Array <IActionTotal>;
+}

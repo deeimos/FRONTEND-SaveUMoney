@@ -46,7 +46,10 @@ const validationSchema = yup.object().shape({
   description: yup.string(),
 });
 
-export const AddIncome = observer(() => {
+type AddIncomeProps = {
+  date: string;
+};
+export const AddIncome = observer(({date}: AddIncomeProps) => {
   const {
     addIncomeModalStore,
     incomesStore,
@@ -91,7 +94,7 @@ export const AddIncome = observer(() => {
   };
 
   const handleSubmit = async (values: IBaseActionDtString) => {
-    incomesStore.AddIncomeAction(values, { date: formattedDate });
+    incomesStore.AddIncomeAction(values, { date: date });
     if (billsStore.errorMsg) alert(billsStore.errorMsg);
     addIncomeModalStore.closeModal();
   };

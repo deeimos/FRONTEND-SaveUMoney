@@ -2,25 +2,32 @@ import React, { useState, useMemo } from "react";
 import { SPage } from "../styled";
 import { IncomesList } from "../../components/incomes/IncomesList";
 import { useStores } from "../../StoresProvider";
-import { AddIncome } from "../../components/modals/index";
+import {
+  AddIncome,
+  DeleteIncome,
+  UpdateIncome,
+} from "../../components/modals/index";
 import { toFormattedDate } from "../../utils/FormattedDate";
+import { localization } from "../../localization";
+import { IActionDtString } from "../../const/types";
 
 export const Incomes = () => {
-  const { addIncomeModalStore } = useStores();
+  const {
+    addIncomeModalStore,
+    updateIncomeModalStore,
+    deleteIncomeModalStore,
+  } = useStores();
   const currentDate = useMemo(() => new Date(), []);
   const [date, setDate] = useState(currentDate);
 
-  const formattedDate = useMemo(
-    () =>
-      new Intl.DateTimeFormat("ru", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      })
-        .format(date)
-        .toString(),
-    [date]
-  );
+  const [currentIncome, setCurrentIncome] = useState<IActionDtString>({
+    billId: "",
+    categoryId: "",
+    date: "",
+    description: "",
+    _id: "",
+    value: 0,
+  });
 
   const handlePreviousMonth = () => {
     const newDate = new Date(date);
@@ -38,18 +45,67 @@ export const Incomes = () => {
   };
 
   const handleClick = () => {
-    addIncomeModalStore.openModal(<AddIncome />);
+    addIncomeModalStore.openModal(
+      <AddIncome date={toFormattedDate.setFormattedDate(date)} />
+    );
+  };
+
+  const onButtonClick = (income: IActionDtString, action: string) => {
+    setCurrentIncome(income);
+    switch (action) {
+      case "update":
+        updateIncomeModalStore.openModal(
+          <UpdateIncome
+            income={currentIncome}
+            date={toFormattedDate.setFormattedDate(date)}
+          />
+        );
+        break;
+      case "delete":
+        deleteIncomeModalStore.openModal(
+          <DeleteIncome
+            income={currentIncome}
+            date={toFormattedDate.setFormattedDate(date)}
+          />
+        );
+        break;
+      default:
+        break;
+    }
   };
 
   return (
     <SPage.Content>
-      <h1>Incomes</h1>
-      <button onClick={handlePreviousMonth}> back </button>
-      <h3>{toFormattedDate.formattedDateHeader(date)}</h3>
-      <button onClick={handleNextMonth}> next </button>
-      <IncomesList formattedDate={formattedDate} />
-      <button onClick={handleClick}>AddIncome</button>
-      <AddIncome/>
+      <SPage.Header>
+        <SPage.Title>Доходы</SPage.Title>
+        <SPage.Control>
+          <SPage.ControlButton onClick={handlePreviousMonth}>
+            {"<"}
+          </SPage.ControlButton>
+          <SPage.ControlText>
+            {toFormattedDate.formattedDateHeader(date)}
+          </SPage.ControlText>
+          <SPage.ControlButton onClick={handleNextMonth}>
+            {">"}
+          </SPage.ControlButton>
+        </SPage.Control>
+      </SPage.Header>
+      <SPage.Body>
+        <IncomesList
+          formattedDate={toFormattedDate.setFormattedDate(date)}
+          onButtonClick={onButtonClick}
+        />
+      </SPage.Body>
+      <SPage.Button onClick={handleClick}>{localization.add}</SPage.Button>
+      <AddIncome date={toFormattedDate.setFormattedDate(date)} />
+      <UpdateIncome
+        income={currentIncome}
+        date={toFormattedDate.setFormattedDate(date)}
+      />
+      <DeleteIncome
+        income={currentIncome}
+        date={toFormattedDate.setFormattedDate(date)}
+      />
     </SPage.Content>
   );
 };

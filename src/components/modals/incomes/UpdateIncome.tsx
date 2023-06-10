@@ -48,8 +48,9 @@ const validationSchema = yup.object().shape({
 
 type UpdateIncomeProps = {
   income: IActionDtString;
+  date: string;
 };
-export const UpdateIncome = observer(({ income }: UpdateIncomeProps) => {
+export const UpdateIncome = observer(({ income, date}: UpdateIncomeProps) => {
   const {
     updateIncomeModalStore,
     incomesStore,
@@ -95,7 +96,7 @@ export const UpdateIncome = observer(({ income }: UpdateIncomeProps) => {
 
   const handleSubmit = async (values: IBaseActionDtString) => {
     const updatedBill: IActionDtString = { ...values, _id: income._id };
-    incomesStore.UpdateIncomeAction(updatedBill, { date: formattedDate });
+    incomesStore.UpdateIncomeAction(updatedBill, { date: date });
     if (billsStore.errorMsg) alert(billsStore.errorMsg);
     updateIncomeModalStore.closeModal();
   };
