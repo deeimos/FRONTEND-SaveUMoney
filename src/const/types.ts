@@ -98,3 +98,17 @@ export interface IActionsTotal extends IActionTotal{
   total: number;
   actions: Array <IActionTotal>;
 }
+
+export interface IActionStats{
+  _id: string;
+  actions: number;
+}
+
+export interface DoughnutColors{
+  colors: Array<string>;
+}
+
+export interface BarColors{
+  blue: string;
+  red: string;
+}

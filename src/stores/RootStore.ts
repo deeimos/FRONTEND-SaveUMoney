@@ -4,6 +4,7 @@ import { ExpensesStore } from "./ExpensesStore";
 import { IncomesCategoriesStore } from "./IncomesCategoriesStore";
 import { IncomeStore } from "./IncomesStore";
 import { ModalStore } from "./ModalStore";
+import { ReviewStore } from "./ReviewStore";
 import { UserStore } from "./UserStore";
 
 export class RootStore {
@@ -28,6 +29,8 @@ export class RootStore {
   updateExpenseModalStore: ModalStore = new ModalStore();
 
   infoModalStore: ModalStore = new ModalStore();
+
+  reviewStore: ReviewStore = new ReviewStore();
 
 }
 

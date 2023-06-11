@@ -1,5 +1,5 @@
 import { makeObservable, observable, action, runInAction } from 'mobx';
-import { IGetActions, IActionsTotal, IActionTotal } from '../const/types';
+import { IGetActions, IActionsTotal, IActionStats } from '../const/types';
 import { IncomesClient, ExpensesClient } from '../server';
 
 
@@ -7,8 +7,8 @@ export class ReviewStore {
   isLoading: boolean;
   totalIncomes: IActionsTotal | null;
   totalExpenses: IActionsTotal | null;
-  statsIncomes: IActionTotal[];
-  statsExpenses: IActionTotal[];
+  statsIncomes: IActionStats[];
+  statsExpenses: IActionStats[];
   errorMsg: string;
 
   constructor() {
@@ -25,32 +25,41 @@ export class ReviewStore {
       totalExpenses: observable,
       statsIncomes: observable,
       statsExpenses: observable,
-      GetTotalIncomes: action,
+      GetTotals: action,
       GetStatsIncomes: action,
-      GetTotalExpenses: action,
       GetStatsExpenses: action,
       GetReviewData: action,
     });
   }
 
-  GetTotalIncomes = action(async (date: IGetActions) => {
+  GetTotals = action(async (date: IGetActions) => {
     try {
       runInAction(() => {
         this.isLoading = true;
         this.errorMsg = '';
-      })
+      });
 
-      const result = await IncomesClient.totalIncomes(date);
+      const totalIncomesPromise = IncomesClient.totalIncomes(date);
+      const totalExpensesPromise = ExpensesClient.totalExpenses(date);
+
+      const [
+        totalIncomesResult,
+        totalExpensesResult,
+      ] = await Promise.all([
+        totalIncomesPromise,
+        totalExpensesPromise,
+      ]);
 
       runInAction(() => {
-        this.totalIncomes = result.data;
+        this.totalIncomes = totalIncomesResult.data;
+        this.totalExpenses = totalExpensesResult.data;
         this.isLoading = false;
-      })
+      });
     } catch (error: any) {
       runInAction(() => {
         this.isLoading = false;
-        this.errorMsg = error.response.data.message || '';
-      })
+        this.errorMsg = error.response?.data?.message || error.message || '';
+      });
     }
   })
 
@@ -75,26 +84,6 @@ export class ReviewStore {
     }
   })
 
-  GetTotalExpenses = action(async (date: IGetActions) => {
-    try {
-      runInAction(() => {
-        this.isLoading = true;
-        this.errorMsg = '';
-      })
-
-      const result = await ExpensesClient.totalExpenses(date);
-
-      runInAction(() => {
-        this.totalExpenses = result.data;
-        this.isLoading = false;
-      })
-    } catch (error: any) {
-      runInAction(() => {
-        this.isLoading = false;
-        this.errorMsg = error.response.data.message || '';
-      })
-    }
-  })
 
   GetStatsExpenses = action(async (date: IGetActions) => {
     try {
@@ -119,15 +108,40 @@ export class ReviewStore {
 
   GetReviewData = action(async (date: IGetActions) => {
     try {
-      await this.GetTotalIncomes(date);
-      await this.GetStatsIncomes(date);
-      await this.GetTotalExpenses(date);
-      await this.GetStatsExpenses(date);
+      runInAction(() => {
+        this.isLoading = true;
+        this.errorMsg = '';
+      });
+
+      const totalIncomesPromise = IncomesClient.totalIncomes(date);
+      const statsIncomesPromise = IncomesClient.statsIncomes(date);
+      const totalExpensesPromise = ExpensesClient.totalExpenses(date);
+      const statsExpensesPromise = ExpensesClient.statsExpenses(date);
+
+      const [
+        totalIncomesResult,
+        statsIncomesResult,
+        totalExpensesResult,
+        statsExpensesResult,
+      ] = await Promise.all([
+        totalIncomesPromise,
+        statsIncomesPromise,
+        totalExpensesPromise,
+        statsExpensesPromise,
+      ]);
+
+      runInAction(() => {
+        this.totalIncomes = totalIncomesResult.data;
+        this.statsIncomes = statsIncomesResult.data;
+        this.totalExpenses = totalExpensesResult.data;
+        this.statsExpenses = statsExpensesResult.data;
+        this.isLoading = false;
+      });
     } catch (error: any) {
       runInAction(() => {
         this.isLoading = false;
-        this.errorMsg = error.response.data.message || '';
-      })
+        this.errorMsg = error.response?.data?.message || error.message || '';
+      });
     }
   })
 }
