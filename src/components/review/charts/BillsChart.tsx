@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { observer, useObserver } from "mobx-react-lite";
+import { observer } from "mobx-react-lite";
 import { useStores } from "../../../StoresProvider";
-import { IActionsTotal, IActionTotal } from "../../../const/types";
-import { toFormattedDate } from "../../../utils/FormattedDate";
-import { SComponents } from "../../styled";
+import { S } from "../styled";
+
 import {
   Chart,
   ArcElement,
@@ -90,5 +89,12 @@ export const BillsChart = observer(() => {
     };
     fetchData();
   }, [billsStore]);
-  return billsStore.bills ? <Doughnut data={data} /> : null;
+  return billsStore.bills ? (
+    <S.ItemWrapper>
+      <S.ChartTitle>Состояние счетов</S.ChartTitle>
+      <S.ChartWrapper>
+        <Doughnut data={data} />
+      </S.ChartWrapper>
+    </S.ItemWrapper>
+  ) : null;
 });

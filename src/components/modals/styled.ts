@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const Modal = styled.div`
+  font-family: 'Verdana';
   height: 100vh;
   width: 100vw;
   background-color: rgba(0,0,0,0.4);

@@ -12,7 +12,7 @@ const Body = styled.div`
 
 const Items = styled.div`
   display: flex;
-  width: 50rem;
+  width: 60rem;
   box-sizing: border-box;
   flex-direction: column;
   justify-content: flex-start;
@@ -43,12 +43,17 @@ const ItemInfo = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   margin-bottom: 0.4rem;
+
+  & > .description{
+    width: 100%;
+  }
 `
 const TextInfo = styled.p`
   display:flex;
+  width: 20rem;
   font-weight: 400;
   font-size: 1.2rem;
-  line-height: 1.2rem;
+  line-height: 1.6rem;
   text-align: left;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -69,6 +74,7 @@ const TextDescription = styled(TextInfo)`
 const Control = styled.div`
   display: flex;
   margin-top: 1.2rem;
+  margin-left: 12rem;
   justify-content: flex-end;
   flex-direction: row;
 `

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const Body = styled.div`
+  font-family: 'Verdana';
   display: flex;
   box-sizing: border-box;
   flex-direction: column;
@@ -8,10 +9,11 @@ const Body = styled.div`
   border-right: 0.1rem solid #000000;
   box-shadow: 0rem 0rem 2rem #5A5A5A;
   position: fixed;
+  letter-spacing: -0.1rem;
   top: 0;
   left: 0;
   min-height: 100%;
-  width: 5vw;
+  width: 5.5vw;
   background-color: #18171C;
   z-index:1;
 `;

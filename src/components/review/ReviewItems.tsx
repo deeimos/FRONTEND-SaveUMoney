@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { observer } from "mobx-react-lite";
-import { useStores } from "../../StoresProvider";
-import { IActionsTotal, IActionTotal } from "../../const/types";
-import { toFormattedDate } from "../../utils/FormattedDate";
+import React from "react";
 import { SComponents } from "../styled";
+import { S } from "./styled";
 import { TotalActionsChart } from "./charts/TotalActionsChart";
 import { BillsChart } from "./charts/BillsChart";
 import { MonthActionsChart } from "./charts/MonthActionsChart";
@@ -16,12 +13,18 @@ interface ReviewItemsProps {
 
 export const ReviewItems = ({ formattedDate }: ReviewItemsProps) => {
   return (
-    <>
-      <BillsChart />
-      <TotalActionsChart formattedDate={formattedDate}/>
-      <MonthActionsChart formattedDate={formattedDate}/>
-      <IncomesCategoriesChart formattedDate={formattedDate}/>
-      <ExpenseCategoriesChart formattedDate={formattedDate}/>
-    </>
+    <SComponents.Body>
+      <S.Items>
+        <BillsChart />
+        <TotalActionsChart formattedDate={formattedDate} />
+      </S.Items>
+      <S.Items>
+        <MonthActionsChart formattedDate={formattedDate}/>
+      </S.Items>
+      <S.Items>
+          <IncomesCategoriesChart formattedDate={formattedDate} />
+          <ExpenseCategoriesChart formattedDate={formattedDate} />
+      </S.Items>
+    </SComponents.Body>
   );
 };

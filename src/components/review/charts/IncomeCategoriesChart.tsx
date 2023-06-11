@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { observer, useObserver } from "mobx-react-lite";
+import { observer } from "mobx-react-lite";
 import { useStores } from "../../../StoresProvider";
-import { IActionsTotal, IActionTotal } from "../../../const/types";
-import { toFormattedDate } from "../../../utils/FormattedDate";
-import { SComponents } from "../../styled";
+import { S } from "../styled";
+
 import {
   Chart,
   ArcElement,
@@ -80,7 +79,7 @@ export const IncomesCategoriesChart = observer(
       datasets: [
         {
           data: [],
-          backgroundColor: [''],
+          backgroundColor: [""],
         },
       ],
     });
@@ -123,6 +122,13 @@ export const IncomesCategoriesChart = observer(
       fetchData();
     }, [reviewStore, formattedDate]);
 
-    return reviewStore.statsIncomes[0] ? <Doughnut data={data} /> : null;
+    return reviewStore.statsIncomes[0] ? (
+      <S.ItemWrapper>
+        <S.ChartTitle>Распределение доходов по категориям</S.ChartTitle>
+        <S.ChartWrapper>
+          <Doughnut data={data} />
+        </S.ChartWrapper>
+      </S.ItemWrapper>
+    ) : null;
   }
 );

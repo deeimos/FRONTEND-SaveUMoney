@@ -63,9 +63,9 @@ export const ExpensesList = observer(
                           {"Счет: " + findBillName(expense.billId)}
                         </SComponents.TextInfo>
                         <SComponents.TextInfo>
-                          {"Категория:" + findCategoryName(expense.categoryId)}
+                          {"Категория: " + findCategoryName(expense.categoryId)}
                         </SComponents.TextInfo>
-                        <SComponents.TextInfo>
+                        <SComponents.TextInfo className="value">
                           {"Средств: " + expense.value}
                         </SComponents.TextInfo>
                       </SComponents.ItemInfo>

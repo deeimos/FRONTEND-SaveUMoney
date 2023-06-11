@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { observer, useObserver } from "mobx-react-lite";
+import { observer } from "mobx-react-lite";
 import { useStores } from "../../../StoresProvider";
-import { IActionsTotal, IActionTotal } from "../../../const/types";
-import { toFormattedDate } from "../../../utils/FormattedDate";
-import { SComponents } from "../../styled";
+import { S } from "../styled";
+
 import {
   Chart,
   ArcElement,
@@ -92,6 +91,7 @@ export const ExpenseCategoriesChart = observer(
       if (!categoryName) return "Ошибка, не удалось найти";
       return categoryName.name;
     };
+
     useEffect(() => {
       expensesCategoriesStore.GetCategoriesAction();
     }, [expensesCategoriesStore]);
@@ -123,6 +123,13 @@ export const ExpenseCategoriesChart = observer(
       fetchData();
     }, [reviewStore, formattedDate]);
 
-    return reviewStore.statsExpenses[0] ? <Doughnut data={data} /> : null;
+    return reviewStore.statsExpenses[0] ? (
+      <S.ItemWrapper>
+        <S.ChartTitle>Распределение расходов по категориям</S.ChartTitle>
+        <S.ChartWrapper>
+          <Doughnut data={data} />
+        </S.ChartWrapper>
+      </S.ItemWrapper>
+    ) : null;
   }
 );

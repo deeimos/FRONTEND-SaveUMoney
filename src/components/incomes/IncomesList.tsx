@@ -64,14 +64,14 @@ export const IncomesList = observer(
                           {"Счет: " + findBillName(income.billId)}
                         </SComponents.TextInfo>
                         <SComponents.TextInfo>
-                          {"Категория:" + findCategoryName(income.categoryId)}
+                          {"Категория: " + findCategoryName(income.categoryId)}
                         </SComponents.TextInfo>
                         <SComponents.TextInfo>
                           {"Средств: " + income.value}
                         </SComponents.TextInfo>
                       </SComponents.ItemInfo>
                       <SComponents.ItemInfo>
-                        <SComponents.TextDescription>
+                        <SComponents.TextDescription className="description">
                           {income.description || "Нет описания"}
                         </SComponents.TextDescription>
                       </SComponents.ItemInfo>

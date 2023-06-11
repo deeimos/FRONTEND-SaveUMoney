@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const Content = styled.div`
+  font-family: 'Verdana';
   display: flex;
   position:fixed;
   top: 0rem;
@@ -18,8 +19,8 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  height: 15vh;
-  width: 75vw;
+  height: 13vh;
+  width: 90vw;
   padding-top: 1rem;
   padding-left: 5rem;
   background-color: #D9D9D9;
@@ -32,7 +33,7 @@ const Title = styled.p`
   font-size: 2.4rem;
   line-height: 3rem;
   text-align: left;
-  letter-spacing: -0.1rem;
+  // letter-spacing: -0.1rem;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -42,7 +43,7 @@ const Control = styled.div`
   display: flex;
   box-sizing: border-box;
   justify-content: space-between;
-  transform: translateX(-27vw);
+  transform: translateX(-40vw);
   width: 15%;
   align-items: center;
 `;
@@ -81,8 +82,8 @@ const Body = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  height: calc(100vh - 15vh);
-  transform: translateY(20vh);
+  // height: calc(100vh - 15vh);
+  transform: translateY(14vh);
   padding-top: 1rem;
   width: 100%;
   box-sizing: border-box;

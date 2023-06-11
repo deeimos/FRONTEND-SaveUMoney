@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { observer, useObserver } from "mobx-react-lite";
+import { observer } from "mobx-react-lite";
 import { useStores } from "../../../StoresProvider";
-import { IActionsTotal, IActionTotal } from "../../../const/types";
-import { toFormattedDate } from "../../../utils/FormattedDate";
-import { SComponents } from "../../styled";
+import { S } from "../styled";
+
 import {
   Chart,
   ArcElement,
@@ -65,9 +64,8 @@ interface TotalActionsChartProps {
 export const TotalActionsChart = observer(
   ({ formattedDate }: TotalActionsChartProps) => {
     const { reviewStore } = useStores();
-    const labels = ["Доходы", "Расходы"];
     const [data, setData] = useState({
-      labels: labels,
+      labels: [""],
       datasets: [
         {
           data: [0, 0],
@@ -83,7 +81,7 @@ export const TotalActionsChart = observer(
           const totalIncome = reviewStore.totalIncomes?.total || 0;
           const totalExpense = reviewStore.totalExpenses?.total || 0;
           setData({
-            labels: labels,
+            labels: ["Доходы", "Расходы"],
             datasets: [
               {
                 data: [totalIncome, totalExpense],
@@ -97,9 +95,15 @@ export const TotalActionsChart = observer(
       };
       fetchData();
     }, [reviewStore, formattedDate]);
+
     return reviewStore.totalIncomes?.total ||
       reviewStore.totalExpenses?.total ? (
-      <Doughnut data={data} />
+      <S.ItemWrapper>
+        <S.ChartTitle>Доходы / Расходы за месяц</S.ChartTitle>
+        <S.ChartWrapper>
+          <Doughnut data={data} />
+        </S.ChartWrapper>
+      </S.ItemWrapper>
     ) : null;
   }
 );

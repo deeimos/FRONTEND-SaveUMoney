@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { observer, useObserver } from "mobx-react-lite";
+import { observer } from "mobx-react-lite";
 import { useStores } from "../../../StoresProvider";
-import { IActionsTotal, IActionTotal } from "../../../const/types";
-import { toFormattedDate } from "../../../utils/FormattedDate";
-import { SComponents } from "../../styled";
+import { S } from "../styled";
+
 import {
   Chart,
   ArcElement,
@@ -153,20 +152,25 @@ export const MonthActionsChart = observer(
 
     return reviewStore.totalIncomes?.actions[0] ||
       reviewStore.totalExpenses?.actions[0] ? (
-      <Bar
-        data={data}
-        options={{
-          responsive: true,
-          scales: {
-            x: {
-              stacked: true,
-            },
-            y: {
-              stacked: true,
-            },
-          },
-        }}
-      />
+      <S.ItemWrapper className='everyday__chart'>
+        <S.ChartTitle>Доходы / Расходы ежедневно</S.ChartTitle>
+        <S.ChartWrapper className='everyday__chartWrapper'>
+          <Bar
+            data={data}
+            options={{
+              responsive: true,
+              scales: {
+                x: {
+                  stacked: true,
+                },
+                y: {
+                  stacked: true,
+                },
+              },
+            }}
+          />
+        </S.ChartWrapper>
+      </S.ItemWrapper>
     ) : null;
   }
 );

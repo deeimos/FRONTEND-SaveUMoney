@@ -135,7 +135,7 @@ export const UpdateExpense = observer(({ expense, date }: UpdateExpenseProps) =>
   return updateExpenseModalStore.modal.isOpened ? (
     <SModal.Modal onClick={closeModal}>
       <SModal.ModalContent onClick={(e) => e.stopPropagation()}>
-        <S.Header>UpdateExpense</S.Header>
+        <S.Header>Изменить расход</S.Header>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
