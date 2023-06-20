@@ -4,7 +4,6 @@ import * as yup from "yup";
 
 import { IAddBill } from "../../../const/types";
 import { SModal } from "../styled";
-import { S } from "./styled";
 import { useStores } from "../../../StoresProvider";
 import { observer } from "mobx-react-lite";
 import InfoModal from "../error/InfoModal";
@@ -53,8 +52,8 @@ export const AddBill = observer(() => {
 
   return addBillModalStore.modal.isOpened ? (
     <SModal.Modal onClick={closeModal}>
-      <SModal.ModalContent onClick={(e) => e.stopPropagation()}>
-        <S.Header>AddBill</S.Header>
+      <SModal.UploadModal onClick={(e) => e.stopPropagation()}>
+        <SModal.Header>Добавить счет</SModal.Header>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -63,10 +62,10 @@ export const AddBill = observer(() => {
           }}
         >
           {(props: FormikProps<IAddBill>) => (
-            <Form>
+            <Form className="upload__form">
               <Field type="text" name="name" placeholder="Имя счета" />
               {props.touched.name && props.errors.name && (
-                <div>{props.errors.name}</div>
+                <SModal.Error>{props.errors.name}</SModal.Error>
               )}
               <Field
                 type="number"
@@ -76,24 +75,26 @@ export const AddBill = observer(() => {
                 onClick={(e: any) => handleClick(e, props.setFieldValue)}
               />
               {props.touched.value && props.errors.value && (
-                <div>{props.errors.value}</div>
+                <SModal.Error>{props.errors.value}</SModal.Error>
               )}
               <Field type="string" name="description" placeholder="Описание" />
               {props.touched.description && props.errors.description && (
-                <div>{props.errors.description}</div>
+                <SModal.Error>{props.errors.description}</SModal.Error>
               )}
-              <button type="submit">Submit</button>
-              <button
-                type="button"
-                onClick={() => addBillModalStore.closeModal()}
-              >
-                Cancel
-              </button>
+              <SModal.Control>
+                <SModal.Button type="submit">Добавить</SModal.Button>
+                <SModal.Button
+                  type="button"
+                  onClick={() => addBillModalStore.closeModal()}
+                >
+                  Отмена
+                </SModal.Button>
+              </SModal.Control>
             </Form>
           )}
         </Formik>
         <InfoModal message={message} />
-      </SModal.ModalContent>
+      </SModal.UploadModal>
     </SModal.Modal>
   ) : null;
 });

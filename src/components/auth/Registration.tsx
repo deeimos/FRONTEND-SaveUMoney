@@ -35,7 +35,7 @@ const validationSchema = () =>
   });
 
 export const Registration = observer(() => {
-  const [isSending, setIsSending] = useState(false);
+  // const [isSending, setIsSending] = useState(false);
   const [message, setMessage] = useState("");
 
   const { infoModalStore } = useStores();
@@ -69,9 +69,9 @@ export const Registration = observer(() => {
     }
   };
 
-  const handleBlur = () => {
-    if (isSending) setIsSending(!isSending);
-  };
+  // const handleBlur = () => {
+  //   if (isSending) setIsSending(!isSending);
+  // };
 
   return (
     <>
@@ -87,42 +87,42 @@ export const Registration = observer(() => {
         }}
       >
         {(props: FormikProps<IRegisterProps>) => (
-          <Form>
+          <Form className="login__form">
             <Field
               type="text"
               name="username"
               placeholder="Имя"
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
             />
             {props.touched.username && props.errors.username && (
-              <div>{props.errors.username}</div>
+              <S.Error>{props.errors.username}</S.Error>
             )}
             <Field
               type="text"
               name="email"
               placeholder="Адрес электронной почты"
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
             />
             {props.touched.email && props.errors.email && (
-              <div>{props.errors.email}</div>
+              <S.Error>{props.errors.email}</S.Error>
             )}
             <Field
               type="password"
               name="password"
               placeholder="Пароль"
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
             />
             {props.touched.password && props.errors.password && (
-              <div>{props.errors.password}</div>
+              <S.Error>{props.errors.password}</S.Error>
             )}
             <Field
               type="password"
               name="repeatPassword"
               placeholder="Повторите пароль"
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
             />
             {props.touched.repeatPassword && props.errors.repeatPassword && (
-              <div>{props.errors.repeatPassword}</div>
+              <S.Error>{props.errors.repeatPassword}</S.Error>
             )}
             <button type="submit">{localization.auth.buttonRegister}</button>
           </Form>

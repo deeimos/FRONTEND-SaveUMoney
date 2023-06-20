@@ -1,7 +1,6 @@
 import React from "react";
 import { IBill } from "../../../const/types";
 import { SModal } from "../styled";
-import { S } from "./styled";
 import { useStores } from "../../../StoresProvider";
 import { observer } from "mobx-react-lite";
 
@@ -25,12 +24,15 @@ export const DeleteBill = observer(({ bill }: DeleteBillProps) => {
   return deleteBillModalStore.modal.isOpened ? (
     <SModal.Modal onClick={closeModal}>
       <SModal.ModalContent onClick={(e) => e.stopPropagation()}>
-        <S.Header>Delete bill</S.Header>
-        <div>
-          <p>Удалить счет {bill.name}?</p>
-          <button onClick={handleClick}>Да</button>
-          <button onClick={() => deleteBillModalStore.closeModal()}>Нет</button>
-        </div>
+        <SModal.HeaderInfoModal>
+          Удалить счет {bill.name}?
+        </SModal.HeaderInfoModal>
+        <SModal.ControlInfoModal>
+          <SModal.Button onClick={handleClick}>Да</SModal.Button>
+          <SModal.Button onClick={() => deleteBillModalStore.closeModal()}>
+            Нет
+          </SModal.Button>
+        </SModal.ControlInfoModal>
       </SModal.ModalContent>
     </SModal.Modal>
   ) : null;

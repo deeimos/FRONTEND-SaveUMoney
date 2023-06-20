@@ -5,7 +5,6 @@ import moment from "moment";
 
 import { IBaseActionDtString } from "../../../const/types";
 import { SModal } from "../styled";
-import { S } from "./styled";
 import { useStores } from "../../../StoresProvider";
 import { observer } from "mobx-react-lite";
 
@@ -49,7 +48,7 @@ const validationSchema = yup.object().shape({
 type AddExpenseProps = {
   date: string;
 };
-export const AddExpense = observer(({date}: AddExpenseProps) => {
+export const AddExpense = observer(({ date }: AddExpenseProps) => {
   const {
     addExpenseModalStore,
     expensesStore,
@@ -83,10 +82,12 @@ export const AddExpense = observer(({date}: AddExpenseProps) => {
     label: bill.name,
   }));
 
-  const categoryOptions = expensesCategoriesStore.categories.map((category) => ({
-    value: category._id,
-    label: category.name,
-  }));
+  const categoryOptions = expensesCategoriesStore.categories.map(
+    (category) => ({
+      value: category._id,
+      label: category.name,
+    })
+  );
 
   const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -110,8 +111,8 @@ export const AddExpense = observer(({date}: AddExpenseProps) => {
 
   return addExpenseModalStore.modal.isOpened ? (
     <SModal.Modal onClick={closeModal}>
-      <SModal.ModalContent onClick={(e) => e.stopPropagation()}>
-        <S.Header>Add Expense</S.Header>
+      <SModal.UploadModal onClick={(e) => e.stopPropagation()}>
+        <SModal.Header>Добавить расход</SModal.Header>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -120,7 +121,7 @@ export const AddExpense = observer(({date}: AddExpenseProps) => {
           }}
         >
           {(props: FormikProps<IBaseActionDtString>) => (
-            <Form>
+            <Form className="upload__form">
               <Field id="billId" name="billId" as="select">
                 <option value="">Выберите счет</option>
                 {billOptions.map((option: any) => {
@@ -132,7 +133,7 @@ export const AddExpense = observer(({date}: AddExpenseProps) => {
                 })}
               </Field>
               {props.touched.billId && props.errors.billId && (
-                <div>{props.errors.billId}</div>
+                <SModal.Error>{props.errors.billId}</SModal.Error>
               )}
 
               <Field id="categoryId" name="categoryId" as="select">
@@ -146,7 +147,7 @@ export const AddExpense = observer(({date}: AddExpenseProps) => {
                 })}
               </Field>
               {props.touched.categoryId && props.errors.categoryId && (
-                <div>{props.errors.categoryId}</div>
+                <SModal.Error>{props.errors.categoryId}</SModal.Error>
               )}
 
               <Field
@@ -156,7 +157,7 @@ export const AddExpense = observer(({date}: AddExpenseProps) => {
                 onClick={(e: any) => handleClick(e, props.setFieldValue)}
               />
               {props.touched.date && props.errors.date && (
-                <div>{props.errors.date}</div>
+                <SModal.Error>{props.errors.date}</SModal.Error>
               )}
 
               <Field
@@ -167,25 +168,27 @@ export const AddExpense = observer(({date}: AddExpenseProps) => {
                 onClick={(e: any) => handleClick(e, props.setFieldValue)}
               />
               {props.touched.value && props.errors.value && (
-                <div>{props.errors.value}</div>
+                <SModal.Error>{props.errors.value}</SModal.Error>
               )}
 
               <Field type="string" name="description" placeholder="Описание" />
               {props.touched.description && props.errors.description && (
-                <div>{props.errors.description}</div>
+                <SModal.Error>{props.errors.description}</SModal.Error>
               )}
 
-              <button type="submit">Submit</button>
-              <button
-                type="button"
-                onClick={() => addExpenseModalStore.closeModal()}
-              >
-                Cancel
-              </button>
+              <SModal.Control>
+                <SModal.Button type="submit">Добавить</SModal.Button>
+                <SModal.Button
+                  type="button"
+                  onClick={() => addExpenseModalStore.closeModal()}
+                >
+                  Отмена
+                </SModal.Button>
+              </SModal.Control>
             </Form>
           )}
         </Formik>
-      </SModal.ModalContent>
+      </SModal.UploadModal>
     </SModal.Modal>
   ) : null;
 });

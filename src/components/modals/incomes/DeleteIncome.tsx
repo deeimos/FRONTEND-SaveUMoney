@@ -1,7 +1,6 @@
 import React from "react";
 import { IActionDtString } from "../../../const/types";
 import { SModal } from "../styled";
-import { S } from "./styled";
 import { useStores } from "../../../StoresProvider";
 import { observer } from "mobx-react-lite";
 
@@ -26,14 +25,15 @@ export const DeleteIncome = observer(({ income, date }: DeleteIncomeProps) => {
   return deleteIncomeModalStore.modal.isOpened ? (
     <SModal.Modal onClick={closeModal}>
       <SModal.ModalContent onClick={(e) => e.stopPropagation()}>
-        <S.Header>Delete bill</S.Header>
-        <div>
-          <p>Удалить выбранную запись о доходе?</p>
-          <button onClick={handleClick}>Да</button>
-          <button onClick={() => deleteIncomeModalStore.closeModal()}>
+        <SModal.HeaderInfoModal>
+          Удалить выбранную запись о доходе?
+        </SModal.HeaderInfoModal>
+        <SModal.ControlInfoModal>
+          <SModal.Button onClick={handleClick}>Да</SModal.Button>
+          <SModal.Button onClick={() => deleteIncomeModalStore.closeModal()}>
             Нет
-          </button>
-        </div>
+          </SModal.Button>
+        </SModal.ControlInfoModal>
       </SModal.ModalContent>
     </SModal.Modal>
   ) : null;

@@ -19,7 +19,7 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  height: 13vh;
+  min-height: 13vh;
   width: 90vw;
   padding-top: 1rem;
   padding-left: 5rem;

@@ -4,7 +4,7 @@ import * as yup from "yup";
 
 import { IAddBill, IBill } from "../../../const/types";
 import { SModal } from "../styled";
-import { S } from "./styled";
+// import { S } from "./styled";
 import { useStores } from "../../../StoresProvider";
 import { observer } from "mobx-react-lite";
 
@@ -65,8 +65,8 @@ export const UpdateBill = observer(({ bill }: UpdateBillProps) => {
 
   return updateBillModalStore.modal.isOpened ? (
     <SModal.Modal onClick={closeModal}>
-      <SModal.ModalContent onClick={(e) => e.stopPropagation()}>
-        <S.Header>Update bill</S.Header>
+      <SModal.UploadModal onClick={(e) => e.stopPropagation()}>
+        <SModal.Header>Обновить счет</SModal.Header>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -75,7 +75,7 @@ export const UpdateBill = observer(({ bill }: UpdateBillProps) => {
           }}
         >
           {(props: FormikProps<IAddBill>) => (
-            <Form>
+            <Form className="upload__form">
               <Field
                 type="text"
                 name="name"
@@ -83,7 +83,7 @@ export const UpdateBill = observer(({ bill }: UpdateBillProps) => {
                 onClick={(e: any) => handleClick(e, props.setFieldValue)}
               />
               {props.touched.name && props.errors.name && (
-                <div>{props.errors.name}</div>
+                <SModal.Error>{props.errors.name}</SModal.Error>
               )}
               <Field
                 type="number"
@@ -93,7 +93,7 @@ export const UpdateBill = observer(({ bill }: UpdateBillProps) => {
                 onClick={(e: any) => handleClick(e, props.setFieldValue)}
               />
               {props.touched.value && props.errors.value && (
-                <div>{props.errors.value}</div>
+                <SModal.Error>{props.errors.value}</SModal.Error>
               )}
               <Field
                 type="string"
@@ -102,19 +102,21 @@ export const UpdateBill = observer(({ bill }: UpdateBillProps) => {
                 onClick={(e: any) => handleClick(e, props.setFieldValue)}
               />
               {props.touched.description && props.errors.description && (
-                <div>{props.errors.description}</div>
+                <SModal.Error>{props.errors.description}</SModal.Error>
               )}
-              <button type="submit">Submit</button>
-              <button
-                type="button"
-                onClick={() => updateBillModalStore.closeModal()}
-              >
-                Cancel
-              </button>
+              <SModal.Control>
+                <SModal.Button type="submit">Обновить</SModal.Button>
+                <SModal.Button
+                  type="button"
+                  onClick={() => updateBillModalStore.closeModal()}
+                >
+                  Отмена
+                </SModal.Button>
+              </SModal.Control>
             </Form>
           )}
         </Formik>
-      </SModal.ModalContent>
+      </SModal.UploadModal>
     </SModal.Modal>
   ) : null;
 });

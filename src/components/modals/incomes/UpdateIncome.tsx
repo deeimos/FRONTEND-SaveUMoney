@@ -5,7 +5,6 @@ import moment from "moment";
 
 import { IActionDtString, IBaseActionDtString } from "../../../const/types";
 import { SModal } from "../styled";
-import { S } from "./styled";
 import { useStores } from "../../../StoresProvider";
 import { observer } from "mobx-react-lite";
 
@@ -50,7 +49,7 @@ type UpdateIncomeProps = {
   income: IActionDtString;
   date: string;
 };
-export const UpdateIncome = observer(({ income, date}: UpdateIncomeProps) => {
+export const UpdateIncome = observer(({ income, date }: UpdateIncomeProps) => {
   const {
     updateIncomeModalStore,
     incomesStore,
@@ -134,8 +133,8 @@ export const UpdateIncome = observer(({ income, date}: UpdateIncomeProps) => {
 
   return updateIncomeModalStore.modal.isOpened ? (
     <SModal.Modal onClick={closeModal}>
-      <SModal.ModalContent onClick={(e) => e.stopPropagation()}>
-        <S.Header>AddIncome</S.Header>
+      <SModal.UploadModal onClick={(e) => e.stopPropagation()}>
+        <SModal.Header>Изменить доход</SModal.Header>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -144,7 +143,7 @@ export const UpdateIncome = observer(({ income, date}: UpdateIncomeProps) => {
           }}
         >
           {(props: FormikProps<IBaseActionDtString>) => (
-            <Form>
+            <Form className="upload__form">
               <Field
                 id="billId"
                 name="billId"
@@ -161,7 +160,7 @@ export const UpdateIncome = observer(({ income, date}: UpdateIncomeProps) => {
                 })}
               </Field>
               {props.touched.billId && props.errors.billId && (
-                <div>{props.errors.billId}</div>
+                <SModal.Error>{props.errors.billId}</SModal.Error>
               )}
 
               <Field
@@ -180,7 +179,7 @@ export const UpdateIncome = observer(({ income, date}: UpdateIncomeProps) => {
                 })}
               </Field>
               {props.touched.categoryId && props.errors.categoryId && (
-                <div>{props.errors.categoryId}</div>
+                <SModal.Error>{props.errors.categoryId}</SModal.Error>
               )}
 
               <Field
@@ -190,7 +189,7 @@ export const UpdateIncome = observer(({ income, date}: UpdateIncomeProps) => {
                 onClick={(e: any) => handleClick(e, props.setFieldValue)}
               />
               {props.touched.date && props.errors.date && (
-                <div>{props.errors.date}</div>
+                <SModal.Error>{props.errors.date}</SModal.Error>
               )}
 
               <Field
@@ -201,7 +200,7 @@ export const UpdateIncome = observer(({ income, date}: UpdateIncomeProps) => {
                 onClick={(e: any) => handleClick(e, props.setFieldValue)}
               />
               {props.touched.value && props.errors.value && (
-                <div>{props.errors.value}</div>
+                <SModal.Error>{props.errors.value}</SModal.Error>
               )}
 
               <Field
@@ -211,20 +210,22 @@ export const UpdateIncome = observer(({ income, date}: UpdateIncomeProps) => {
                 onClick={(e: any) => handleClick(e, props.setFieldValue)}
               />
               {props.touched.description && props.errors.description && (
-                <div>{props.errors.description}</div>
+                <SModal.Error>{props.errors.description}</SModal.Error>
               )}
 
-              <button type="submit">Submit</button>
-              <button
-                type="button"
-                onClick={() => updateIncomeModalStore.closeModal()}
-              >
-                Cancel
-              </button>
+              <SModal.Control>
+                <SModal.Button type="submit">Изменить</SModal.Button>
+                <SModal.Button
+                  type="button"
+                  onClick={() => updateIncomeModalStore.closeModal()}
+                >
+                  Отмена
+                </SModal.Button>
+              </SModal.Control>
             </Form>
           )}
         </Formik>
-      </SModal.ModalContent>
+      </SModal.UploadModal>
     </SModal.Modal>
   ) : null;
 });

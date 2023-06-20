@@ -62,18 +62,18 @@ export const Login = observer(() => {
         }}
       >
         {(props: FormikProps<ILoginProps>) => (
-          <Form>
-            <Field
-              type="text"
-              name="email"
-              placeholder="Адрес электронной почты"
-            />
-            {props.touched.email && props.errors.email && (
-              <div>{props.errors.email}</div>
-            )}
+          <Form className="login__form">
+              <Field
+                type="text"
+                name="email"
+                placeholder="Адрес электронной почты"
+              />
+              {props.touched.email && props.errors.email && (
+                <S.Error>{props.errors.email}</S.Error>
+              )}
             <Field type="password" name="password" placeholder="Пароль" />
             {props.touched.password && props.errors.password && (
-              <div>{props.errors.password}</div>
+              <S.Error>{props.errors.password}</S.Error>
             )}
             <button type="submit">{localization.auth.buttonLogin}</button>
           </Form>

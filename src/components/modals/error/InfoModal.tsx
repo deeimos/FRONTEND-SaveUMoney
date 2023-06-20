@@ -1,6 +1,5 @@
 import React from "react";
 import { SModal } from "../styled";
-import { S } from "./styled";
 import { useStores } from "../../../StoresProvider";
 import { observer } from "mobx-react-lite";
 
@@ -18,8 +17,8 @@ export const InfoModal = observer(({ message }: MessageProps) => {
   return infoModalStore.modal.isOpened ? (
     <SModal.Modal onClick={closeModal}>
       <SModal.ModalContent onClick={(e) => e.stopPropagation()}>
-        <S.Header>{message}</S.Header>
-        <button onClick={closeModal}>Ок</button>
+        <SModal.HeaderInfoModal>{message}</SModal.HeaderInfoModal>
+        <SModal.Button onClick={closeModal}>Ок</SModal.Button>
       </SModal.ModalContent>
     </SModal.Modal>
   ) : (

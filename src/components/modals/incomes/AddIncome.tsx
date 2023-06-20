@@ -5,7 +5,6 @@ import moment from "moment";
 
 import { IBaseActionDtString } from "../../../const/types";
 import { SModal } from "../styled";
-import { S } from "./styled";
 import { useStores } from "../../../StoresProvider";
 import { observer } from "mobx-react-lite";
 
@@ -49,7 +48,7 @@ const validationSchema = yup.object().shape({
 type AddIncomeProps = {
   date: string;
 };
-export const AddIncome = observer(({date}: AddIncomeProps) => {
+export const AddIncome = observer(({ date }: AddIncomeProps) => {
   const {
     addIncomeModalStore,
     incomesStore,
@@ -110,8 +109,8 @@ export const AddIncome = observer(({date}: AddIncomeProps) => {
 
   return addIncomeModalStore.modal.isOpened ? (
     <SModal.Modal onClick={closeModal}>
-      <SModal.ModalContent onClick={(e) => e.stopPropagation()}>
-        <S.Header>AddIncome</S.Header>
+      <SModal.UploadModal onClick={(e) => e.stopPropagation()}>
+        <SModal.Header>Добавить доход</SModal.Header>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -120,7 +119,7 @@ export const AddIncome = observer(({date}: AddIncomeProps) => {
           }}
         >
           {(props: FormikProps<IBaseActionDtString>) => (
-            <Form>
+            <Form className="upload__form">
               <Field id="billId" name="billId" as="select">
                 <option value="">Выберите счет</option>
                 {billOptions.map((option: any) => {
@@ -132,7 +131,7 @@ export const AddIncome = observer(({date}: AddIncomeProps) => {
                 })}
               </Field>
               {props.touched.billId && props.errors.billId && (
-                <div>{props.errors.billId}</div>
+                <SModal.Error>{props.errors.billId}</SModal.Error>
               )}
 
               <Field id="categoryId" name="categoryId" as="select">
@@ -146,7 +145,7 @@ export const AddIncome = observer(({date}: AddIncomeProps) => {
                 })}
               </Field>
               {props.touched.categoryId && props.errors.categoryId && (
-                <div>{props.errors.categoryId}</div>
+                <SModal.Error>{props.errors.categoryId}</SModal.Error>
               )}
 
               <Field
@@ -156,7 +155,7 @@ export const AddIncome = observer(({date}: AddIncomeProps) => {
                 onClick={(e: any) => handleClick(e, props.setFieldValue)}
               />
               {props.touched.date && props.errors.date && (
-                <div>{props.errors.date}</div>
+                <SModal.Error>{props.errors.date}</SModal.Error>
               )}
 
               <Field
@@ -167,25 +166,26 @@ export const AddIncome = observer(({date}: AddIncomeProps) => {
                 onClick={(e: any) => handleClick(e, props.setFieldValue)}
               />
               {props.touched.value && props.errors.value && (
-                <div>{props.errors.value}</div>
+                <SModal.Error>{props.errors.value}</SModal.Error>
               )}
 
               <Field type="string" name="description" placeholder="Описание" />
               {props.touched.description && props.errors.description && (
-                <div>{props.errors.description}</div>
+                <SModal.Error>{props.errors.description}</SModal.Error>
               )}
-
-              <button type="submit">Submit</button>
-              <button
-                type="button"
-                onClick={() => addIncomeModalStore.closeModal()}
-              >
-                Cancel
-              </button>
+              <SModal.Control>
+                <SModal.Button type="submit">Добавить</SModal.Button>
+                <SModal.Button
+                  type="button"
+                  onClick={() => addIncomeModalStore.closeModal()}
+                >
+                  Отмена
+                </SModal.Button>
+              </SModal.Control>
             </Form>
           )}
         </Formik>
-      </SModal.ModalContent>
+      </SModal.UploadModal>
     </SModal.Modal>
   ) : null;
 });
